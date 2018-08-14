@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".main.DevicesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/swipeMenuRecyclerViewDevice"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="11" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

@@ -11,7 +11,7 @@ class CtrlFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "控制"
+        fragment = 1
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

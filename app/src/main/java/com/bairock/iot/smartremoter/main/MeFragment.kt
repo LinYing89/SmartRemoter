@@ -11,7 +11,7 @@ class MeFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "我"
+        fragment = 2
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

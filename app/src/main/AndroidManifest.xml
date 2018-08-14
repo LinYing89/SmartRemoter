@@ -3,21 +3,32 @@
     package="com.bairock.iot.smartremoter">
 
     <application
+        android:name=".app.HamaApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyAppTheme">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".main.WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_welcome" />
+        <activity android:name=".logs.UdpLogActivity" />
+        <activity android:name=".logs.TcpLogActivity" />
+        <activity android:name=".logs.BridgesStateActivity" />
+        <activity android:name=".logs.BridgeMsgTestActivity"></activity>
     </application>
 
 </manifest>
