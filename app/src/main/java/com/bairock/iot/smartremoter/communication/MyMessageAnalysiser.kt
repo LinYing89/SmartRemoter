@@ -4,7 +4,7 @@ import com.bairock.iot.intelDev.communication.MessageAnalysiser
 import com.bairock.iot.intelDev.device.*
 import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
-import com.bairock.iot.smartremoter.esptouch.EspTouchAddDevice
+import com.bairock.iot.smartremoter.esptouch.EspAddDevice
 
 class MyMessageAnalysiser : MessageAnalysiser() {
 
@@ -51,18 +51,17 @@ class MyMessageAnalysiser : MessageAnalysiser() {
                 return false
             }
 
-            val coordinator = device
-            if (!coordinator.isConfigingChildDevice) {
+            if (!device.isConfigingChildDevice) {
                 return false
             }
             for (i in 2 until codings.size) {
                 val coding = codings[i]
-                var device1: Device? = coordinator.findDevByCoding(coding)
+                var device1: Device? = device.findDevByCoding(coding)
                 if (null == device1) {
                     device1 = DeviceAssistent.createDeviceByCoding(coding)
                     if (device1 != null) {
                         HamaApp.DEV_GROUP.createDefaultDeviceName(device1)
-                        coordinator.addChildDev(device1)
+                        device.addChildDev(device1)
                         val deviceDao = DeviceDao.get(HamaApp.HAMA_CONTEXT)
                         deviceDao.add(device1)
                     }
@@ -88,9 +87,9 @@ class MyMessageAnalysiser : MessageAnalysiser() {
     }
 
     private fun addNewDevice(device: Device) {
-        if (EspTouchAddDevice.CONFIGING) {
+        if (EspAddDevice.CONFIGING) {
             HamaApp.DEV_GROUP.createDefaultDeviceName(device)
-            EspTouchAddDevice.DEVICE = device
+            EspAddDevice.DEVICE = device
         }
     }
 }

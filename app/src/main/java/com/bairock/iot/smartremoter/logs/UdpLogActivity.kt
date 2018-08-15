@@ -43,7 +43,9 @@ class UdpLogActivity : AppCompatActivity() {
             val dft = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
             netMsgType.time = dft.format(Date())
             listNetMsgType.add(netMsgType)
-            handler!!.obtainMessage().sendToTarget()
+            if(null != handler) {
+                handler!!.obtainMessage().sendToTarget()
+            }
         }
     }
 

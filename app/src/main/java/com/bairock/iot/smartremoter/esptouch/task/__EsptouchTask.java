@@ -5,11 +5,11 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bairock.hamadev.esptouch.protocol.EsptouchGenerator;
-import com.bairock.hamadev.esptouch.udp.UDPSocketClient;
-import com.bairock.hamadev.esptouch.udp.UDPSocketServer;
-import com.bairock.hamadev.esptouch.unit.ByteUtil;
-import com.bairock.hamadev.esptouch.unit.EspNetUtil;
+import com.bairock.iot.smartremoter.esptouch.protocol.EsptouchGenerator;
+import com.bairock.iot.smartremoter.esptouch.udp.UDPSocketClient;
+import com.bairock.iot.smartremoter.esptouch.udp.UDPSocketServer;
+import com.bairock.iot.smartremoter.esptouch.unit.ByteUtil;
+import com.bairock.iot.smartremoter.esptouch.unit.EspNetUtil;
 
 import java.net.InetAddress;
 import java.util.ArrayList;

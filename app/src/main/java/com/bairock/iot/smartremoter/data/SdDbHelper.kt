@@ -59,6 +59,78 @@ class SdDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
             }
             return user
         }
+
+        fun replaceDbUser(user: User) {
+            cleanDb()
+            val devGroup = user.listDevGroup[0]
+            UserDao.get(HamaApp.HAMA_CONTEXT).addUser(user)
+            DevGroupDao.get(HamaApp.HAMA_CONTEXT).add(devGroup)
+            val deviceDao = DeviceDao.get(HamaApp.HAMA_CONTEXT)
+            for (device in devGroup.listDevice) {
+                deviceDao.add(device)
+            }
+
+            val linkageHolderDao = LinkageHolderDao.get(HamaApp.HAMA_CONTEXT)
+            for (linkageHolder in devGroup.listLinkageHolder) {
+                linkageHolderDao.add(linkageHolder)
+            }
+
+            val linkageDao = LinkageDao.get(HamaApp.HAMA_CONTEXT)
+            val linkageConditionDao = LinkageConditionDao.get(HamaApp.HAMA_CONTEXT)
+            val effectDao = EffectDao.get(HamaApp.HAMA_CONTEXT)
+
+            for (linkageHolder in devGroup.listLinkageHolder) {
+                for (linkage in linkageHolder.listLinkage) {
+                    linkageDao.add(linkage, linkageHolder.id)
+                    for (effect in linkage.listEffect) {
+                        effectDao.add(effect, linkage.id)
+                    }
+                    if (linkage is SubChain) {
+                        for (linkageCondition in linkage.listCondition) {
+                            linkageConditionDao.add(linkageCondition, linkage.id)
+                        }
+                        if (linkage is ZLoop) {
+                            val loopDurationDao = LoopDurationDao.get(HamaApp.HAMA_CONTEXT)
+                            val myTimeDao = MyTimeDao.get(HamaApp.HAMA_CONTEXT)
+                            for (loopDuration in linkage.listLoopDuration) {
+                                loopDurationDao.add(loopDuration, linkage.id)
+                                myTimeDao.add(loopDuration.onKeepTime, loopDuration.id)
+                                myTimeDao.add(loopDuration.offKeepTime, loopDuration.id)
+                            }
+                        }
+                    } else if (linkage is Timing) {
+                        val zTimerDao = ZTimerDao.get(HamaApp.HAMA_CONTEXT)
+                        val myTimeDao = MyTimeDao.get(HamaApp.HAMA_CONTEXT)
+                        val weekHelperDao = WeekHelperDao.get(HamaApp.HAMA_CONTEXT)
+                        for (zTimer in linkage.listZTimer) {
+                            zTimerDao.add(zTimer, zTimer.id)
+                            myTimeDao.add(zTimer.onTime, zTimer.id)
+                            myTimeDao.add(zTimer.offTime, zTimer.id)
+                            weekHelperDao.add(zTimer.weekHelper)
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun cleanDb() {
+            CollectPropertyDao.get(HamaApp.HAMA_CONTEXT).clean()
+            ValueTriggerDao.get(HamaApp.HAMA_CONTEXT).clean()
+            AlarmTriggerDao.get(HamaApp.HAMA_CONTEXT).clean()
+            RemoterKeyDao.get(HamaApp.HAMA_CONTEXT).clean()
+            DevGroupDao.get(HamaApp.HAMA_CONTEXT).clean()
+            DeviceDao.get(HamaApp.HAMA_CONTEXT).clean()
+            EffectDao.get(HamaApp.HAMA_CONTEXT).clean()
+            LinkageConditionDao.get(HamaApp.HAMA_CONTEXT).clean()
+            LinkageDao.get(HamaApp.HAMA_CONTEXT).clean()
+            LinkageHolderDao.get(HamaApp.HAMA_CONTEXT).clean()
+            LoopDurationDao.get(HamaApp.HAMA_CONTEXT).clean()
+            MyTimeDao.get(HamaApp.HAMA_CONTEXT).clean()
+            UserDao.get(HamaApp.HAMA_CONTEXT).clean()
+            WeekHelperDao.get(HamaApp.HAMA_CONTEXT).clean()
+            ZTimerDao.get(HamaApp.HAMA_CONTEXT).clean()
+            DeviceLinkageDao.get(HamaApp.HAMA_CONTEXT).clean()
+        }
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -260,75 +332,4 @@ class SdDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
 
     }
 
-    private fun cleanDb() {
-        CollectPropertyDao.get(HamaApp.HAMA_CONTEXT).clean()
-        ValueTriggerDao.get(HamaApp.HAMA_CONTEXT).clean()
-        AlarmTriggerDao.get(HamaApp.HAMA_CONTEXT).clean()
-        RemoterKeyDao.get(HamaApp.HAMA_CONTEXT).clean()
-        DevGroupDao.get(HamaApp.HAMA_CONTEXT).clean()
-        DeviceDao.get(HamaApp.HAMA_CONTEXT).clean()
-        EffectDao.get(HamaApp.HAMA_CONTEXT).clean()
-        LinkageConditionDao.get(HamaApp.HAMA_CONTEXT).clean()
-        LinkageDao.get(HamaApp.HAMA_CONTEXT).clean()
-        LinkageHolderDao.get(HamaApp.HAMA_CONTEXT).clean()
-        LoopDurationDao.get(HamaApp.HAMA_CONTEXT).clean()
-        MyTimeDao.get(HamaApp.HAMA_CONTEXT).clean()
-        UserDao.get(HamaApp.HAMA_CONTEXT).clean()
-        WeekHelperDao.get(HamaApp.HAMA_CONTEXT).clean()
-        ZTimerDao.get(HamaApp.HAMA_CONTEXT).clean()
-        DeviceLinkageDao.get(HamaApp.HAMA_CONTEXT).clean()
-    }
-
-    fun replaceDbUser(user: User) {
-        cleanDb()
-        val devGroup = user.listDevGroup[0]
-        UserDao.get(HamaApp.HAMA_CONTEXT).addUser(user)
-        DevGroupDao.get(HamaApp.HAMA_CONTEXT).add(devGroup)
-        val deviceDao = DeviceDao.get(HamaApp.HAMA_CONTEXT)
-        for (device in devGroup.listDevice) {
-            deviceDao.add(device)
-        }
-
-        val linkageHolderDao = LinkageHolderDao.get(HamaApp.HAMA_CONTEXT)
-        for (linkageHolder in devGroup.listLinkageHolder) {
-            linkageHolderDao.add(linkageHolder)
-        }
-
-        val linkageDao = LinkageDao.get(HamaApp.HAMA_CONTEXT)
-        val linkageConditionDao = LinkageConditionDao.get(HamaApp.HAMA_CONTEXT)
-        val effectDao = EffectDao.get(HamaApp.HAMA_CONTEXT)
-
-        for (linkageHolder in devGroup.listLinkageHolder) {
-            for (linkage in linkageHolder.listLinkage) {
-                linkageDao.add(linkage, linkageHolder.id)
-                for (effect in linkage.listEffect) {
-                    effectDao.add(effect, linkage.id)
-                }
-                if (linkage is SubChain) {
-                    for (linkageCondition in linkage.listCondition) {
-                        linkageConditionDao.add(linkageCondition, linkage.id)
-                    }
-                    if (linkage is ZLoop) {
-                        val loopDurationDao = LoopDurationDao.get(HamaApp.HAMA_CONTEXT)
-                        val myTimeDao = MyTimeDao.get(HamaApp.HAMA_CONTEXT)
-                        for (loopDuration in linkage.listLoopDuration) {
-                            loopDurationDao.add(loopDuration, linkage.id)
-                            myTimeDao.add(loopDuration.onKeepTime, loopDuration.id)
-                            myTimeDao.add(loopDuration.offKeepTime, loopDuration.id)
-                        }
-                    }
-                } else if (linkage is Timing) {
-                    val zTimerDao = ZTimerDao.get(HamaApp.HAMA_CONTEXT)
-                    val myTimeDao = MyTimeDao.get(HamaApp.HAMA_CONTEXT)
-                    val weekHelperDao = WeekHelperDao.get(HamaApp.HAMA_CONTEXT)
-                    for (zTimer in linkage.listZTimer) {
-                        zTimerDao.add(zTimer, zTimer.id)
-                        myTimeDao.add(zTimer.onTime, zTimer.id)
-                        myTimeDao.add(zTimer.offTime, zTimer.id)
-                        weekHelperDao.add(zTimer.weekHelper)
-                    }
-                }
-            }
-        }
-    }
 }

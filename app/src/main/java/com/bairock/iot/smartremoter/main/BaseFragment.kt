@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 open class BaseFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+    var listener: OnFragmentInteractionListener? = null
 
     var fragment = 0
 
@@ -42,7 +42,7 @@ open class BaseFragment : Fragment() {
     }
 
     private fun setTitle(){
-        //listener?.onTitle(0)
+        listener?.onTitle(0)
     }
 
     override fun onDetach() {
@@ -53,5 +53,6 @@ open class BaseFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
         fun onTitle(fragment : Int)
+        fun showBack(show : Boolean)
     }
 }

@@ -9,10 +9,13 @@ import android.util.DisplayMetrics
 import android.view.View
 import com.bairock.iot.intelDev.communication.*
 import com.bairock.iot.intelDev.device.*
+import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.linkage.LinkageHelper
 import com.bairock.iot.intelDev.linkage.LinkageTab
 import com.bairock.iot.intelDev.linkage.guagua.GuaguaHelper
 import com.bairock.iot.intelDev.linkage.timing.WeekHelper
+import com.bairock.iot.intelDev.user.DevGroup
+import com.bairock.iot.intelDev.user.User
 import com.bairock.iot.smartremoter.MainActivity
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.app.Constant
@@ -21,12 +24,14 @@ import com.bairock.iot.smartremoter.app.HamaApp.Companion.setDeviceListener
 import com.bairock.iot.smartremoter.app.LogUtils
 import com.bairock.iot.smartremoter.communication.MyMessageAnalysiser
 import com.bairock.iot.smartremoter.communication.MyOnCommunicationListener
+import com.bairock.iot.smartremoter.data.DevGroupDao
 import com.bairock.iot.smartremoter.data.SdDbHelper
+import com.bairock.iot.smartremoter.data.UserDao
 import com.bairock.iot.smartremoter.logs.MyOnBridgesChangedListener
 import com.bairock.iot.smartremoter.logs.UdpLogActivity
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import java.lang.ref.WeakReference
-import java.util.HashMap
+import java.util.*
 
 /**
  * 欢迎页面
@@ -72,9 +77,16 @@ class WelcomeActivity : AppCompatActivity() {
         private var mActivity = WeakReference(activity)
 
         override fun doInBackground(vararg p0: Void?): Boolean {
+
+            WeekHelper.ARRAY_WEEKS = arrayOf("日", "一", "二", "三", "四", "五", "六")
+            initMainCodeInfo()
+
+            //测试设备, 添加测试设备到数据库
+            testRemoterContainer()
+
             init()
 
-            Thread.sleep(3000)
+//            Thread.sleep(3000)
             return true
         }
 
@@ -86,9 +98,6 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
         private fun init(){
-            WeekHelper.ARRAY_WEEKS = arrayOf("日", "一", "二", "三", "四", "五", "六")
-            initMainCodeInfo()
-
             //获取屏幕宽高
             val displayMetrics = DisplayMetrics()
             mActivity.get()!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -97,8 +106,14 @@ class WelcomeActivity : AppCompatActivity() {
 
             initUser()
 
-            UdpServer.getIns().setUser(HamaApp.USER)
-            UdpServer.getIns().run()
+            try {
+                UdpServer.MY_PORT = 10010
+                UdpServer.TO_PORT = 10011
+                UdpServer.getIns().setUser(HamaApp.USER)
+                UdpServer.getIns().run()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
             try {
                 HamaApp.DEV_SERVER = DevServer()
@@ -197,6 +212,28 @@ class WelcomeActivity : AppCompatActivity() {
             map[MainCodeHelper.SMC_SHUI_LONG_TOU] = "水龙头"
 
             MainCodeHelper.getIns().setManCodeInfo(map)
+        }
+
+        private fun testRemoterContainer() {
+            val user = User()
+            user.name = "test123"
+            user.psd = "a123456"
+            val userDao = UserDao.get(HamaApp.HAMA_CONTEXT)
+            userDao.clean()
+            userDao.addUser(user)
+
+            val devGroup = DevGroup("1", "a123", "g1")
+            devGroup.id = 1
+            user.addGroup(devGroup)
+            val devGroupDao = DevGroupDao.get(HamaApp.HAMA_CONTEXT)
+            devGroupDao.clean()
+            devGroupDao.add(devGroup)
+
+            val remoterContainer = DeviceAssistent.createDeviceByMcId(MainCodeHelper.YAO_KONG, "9999") as RemoterContainer
+
+            devGroup.addDevice(remoterContainer)
+
+            SdDbHelper.replaceDbUser(user)
         }
     }
 

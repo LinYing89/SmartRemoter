@@ -28,7 +28,8 @@
         <activity android:name=".logs.UdpLogActivity" />
         <activity android:name=".logs.TcpLogActivity" />
         <activity android:name=".logs.BridgesStateActivity" />
-        <activity android:name=".logs.BridgeMsgTestActivity"></activity>
+        <activity android:name=".logs.BridgeMsgTestActivity" />
+        <activity android:name=".main.SelectRemoterActivity"></activity>
     </application>
 
 </manifest>
