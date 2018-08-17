@@ -12,4 +12,6 @@
     <string name="dummy_content">智能遥控器</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
+
+    <string name="add_device_tip">配置前请确保待配置的设备处于配置状态,即设备指示灯为红蓝交替闪烁,如果不是请长按设备复位按钮8秒以上即可进入配置状态</string>
 </resources>

@@ -31,11 +31,13 @@
 
     <string-array name="array_remoter">
         <item>电视</item>
-        <item>空调</item>
         <item>窗帘</item>
-        <item>遥控插座</item>
         <item>自定义</item>
     </string-array>
-
+    <string-array name="array_remoter_value">
+        <item>smc_remoter_ds</item>
+        <item>smc_remoter_cl</item>
+        <item>smc_remoter_zdy</item>
+    </string-array>
 
 </resources>

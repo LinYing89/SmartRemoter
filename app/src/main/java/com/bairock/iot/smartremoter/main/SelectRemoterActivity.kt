@@ -23,9 +23,11 @@ class SelectRemoterActivity : AppCompatActivity() {
         }
         lvRemotor.adapter = AdapterSelectRemoter(this)
 
+        val remoterValues = resources.getStringArray(R.array.array_remoter_value)!!
+
         lvRemotor.onItemClickListener = AdapterView.OnItemClickListener { p0, p1, p2, p3 ->
             val intent = Intent()
-            intent.putExtra("remoterCode", p2+1)
+            intent.putExtra("remoterCode", remoterValues[p2])
             intent.putExtra("remoterName", p0.getItemAtPosition(p2).toString())
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -34,7 +36,7 @@ class SelectRemoterActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home){
-            setResult(Activity.RESULT_CANCELED, null)
+            setResult(Activity.RESULT_CANCELED, Intent())
             finish()
         }
         return super.onOptionsItemSelected(item)

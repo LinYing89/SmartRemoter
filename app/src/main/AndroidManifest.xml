@@ -29,7 +29,9 @@
         <activity android:name=".logs.TcpLogActivity" />
         <activity android:name=".logs.BridgesStateActivity" />
         <activity android:name=".logs.BridgeMsgTestActivity" />
-        <activity android:name=".main.SelectRemoterActivity"></activity>
+        <activity android:name=".main.SelectRemoterActivity" />
+        <activity android:name=".settings.AddDeviceActivity"
+            android:label="添加设备"/>
     </application>
 
 </manifest>

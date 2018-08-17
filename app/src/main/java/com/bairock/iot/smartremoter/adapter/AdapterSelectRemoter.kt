@@ -13,7 +13,7 @@ import com.bairock.iot.smartremoter.R
 class AdapterSelectRemoter(val context: Context) : BaseAdapter() {
 
     private val remoters = context.resources.getStringArray(R.array.array_remoter)!!
-    private val remoterImgs = arrayOf(R.drawable.ic_tv, R.drawable.ic_air, R.drawable.ic_curtain, R.drawable.ic_jack, R.drawable.ic_custom_remoter)
+    private val remoterImgs = arrayOf(R.drawable.ic_tv,  R.drawable.ic_curtain, R.drawable.ic_custom_remoter)
 
     @SuppressLint("ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {

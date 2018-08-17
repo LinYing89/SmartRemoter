@@ -1,6 +1,7 @@
 package com.bairock.iot.smartremoter.main
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import com.bairock.iot.intelDev.device.Coordinator
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
@@ -18,6 +21,8 @@ import com.bairock.iot.intelDev.device.devcollect.DevCollectSignalContainer
 import com.bairock.iot.intelDev.device.devswitch.DevSwitch
 import com.bairock.iot.intelDev.device.remoter.Remoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
+import com.bairock.iot.intelDev.user.DevGroup
+import com.bairock.iot.intelDev.user.ErrorCodes
 import com.bairock.iot.intelDev.user.IntelDevHelper
 
 import com.bairock.iot.smartremoter.R
@@ -64,6 +69,13 @@ class DevicesFragment : BaseFragment() {
             val intent = Intent(this.context!!, SelectRemoterActivity::class.java)
             startActivityForResult(intent, RESULT_CODE_SELECT_REMOTER)
         }
+
+        HamaApp.DEV_GROUP.addOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        HamaApp.DEV_GROUP.removeOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
     }
 
     private fun setDeviceList(list: List<Device>) {
@@ -92,6 +104,14 @@ class DevicesFragment : BaseFragment() {
                 btnAddRemoter.visibility = View.GONE
                 btnAddDevice.visibility = View.GONE
             }
+        }
+    }
+
+    private fun reloadNowDevices() {
+        if (null == rootDevice) {
+            setDeviceList(HamaApp.DEV_GROUP.listDevice)
+        } else {
+            setDeviceList((rootDevice as DevHaveChild).listDev)
         }
     }
 
@@ -126,14 +146,15 @@ class DevicesFragment : BaseFragment() {
         IntelDevHelper.OPERATE_DEVICE = device
         when (it.position) {
             0 -> {
+                showRenameDialog(device)
             }
             1 -> {
                 android.app.AlertDialog.Builder(this.context)
-                        .setMessage("确定删除吗")
+                        .setMessage("确定删除${device.name}吗?")
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定"
                         ) { _, _ ->
-
+                            deleteDevice(device)
                         }.show()
             }
         }
@@ -150,6 +171,41 @@ class DevicesFragment : BaseFragment() {
 //            DragRemoteSetLayoutActivity.Companion.setREMOTER(IntelDevHelper.OPERATE_DEVICE as Remoter)
 //            startActivity(Intent(this@SearchActivity, DragRemoteSetLayoutActivity::class.java))
         }
+    }
+
+    private val onDeviceCollectionChangedListener = object : DevGroup.OnDeviceCollectionChangedListener {
+        override fun onAdded(device: Device) {
+            handler.obtainMessage(RELOAD_LIST).sendToTarget()
+        }
+
+        override fun onRemoved(device: Device) {
+            handler.obtainMessage(RELOAD_LIST).sendToTarget()
+        }
+    }
+
+    private fun showRenameDialog(device: Device) {
+        val editNewName = EditText(this.context)
+        editNewName.setText(device.name)
+        AlertDialog.Builder(this.context)
+                .setTitle("重命名")
+                .setView(editNewName)
+                .setPositiveButton("确定"
+                ) { _, _ ->
+                    val value = editNewName.text.toString()
+                    if (HamaApp.DEV_GROUP.renameDevice(device, value) == ErrorCodes.DEV_NAME_IS_EXISTS) {
+                        Toast.makeText(this.context, "与组内其他设备名重复", Toast.LENGTH_SHORT).show()
+                    }
+                    //在组名监听器中更新数据库
+                }.setNegativeButton("取消", null).create().show()
+    }
+
+    private fun deleteDevice(device: Device) {
+        device.isDeleted = true
+        val deviceDao = DeviceDao.get(this.context!!)
+        deviceDao.delete(device)
+        HamaApp.DEV_GROUP.removeDevice(device)
+        HamaApp.removeOfflineDevCoding(device)
+        adapterDevices!!.notifyDataSetChanged()
     }
 
     private fun nextPage() {
@@ -178,16 +234,17 @@ class DevicesFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+
             if (requestCode == RESULT_CODE_SELECT_REMOTER) {
                 //选择遥控器界面返回
-                val code = data.getIntExtra("remoterCode", 1)
+                val mainCodeId = data.getStringExtra("remoterCode")
                 val name = data.getStringExtra("remoterName")
                 val rc = rootDevice as RemoterContainer
-                val remoter = rc.createRemoter(code.toString())
+                val remoter = rc.createRemoter(mainCodeId)
                 remoter.name = name + remoter.subCode
                 rc.addChildDev(remoter)
                 DeviceDao.get(this.context!!).add(remoter)
-                adapterDevices!!.notifyDataSetChanged()
+                //adapterDevices!!.notifyDataSetChanged()
             }
         }
     }
@@ -204,6 +261,9 @@ class DevicesFragment : BaseFragment() {
                 }
                 PREVIOUS_PAGE -> {
                     mFragment.previousPage()
+                }
+                RELOAD_LIST -> {
+                    mFragment.reloadNowDevices()
                 }
             }
         }
@@ -222,6 +282,13 @@ class DevicesFragment : BaseFragment() {
          * 选择遥控器界面响应编码
          */
         const val RESULT_CODE_SELECT_REMOTER = 2
+
+        const val NO_MESSAGE = 3
+        const val SEARCH_OK = 4
+        const val UPDATE_LIST = 5
+        const val CTRL_MODEL_PROGRESS = 6
+        const val RELOAD_LIST = 7
+        const val DEV_ADD_CHILD = 8
 
         @JvmStatic
         fun newInstance() =

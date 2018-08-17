@@ -1,9 +1,8 @@
 package com.bairock.iot.smartremoter.communication
 
 import com.bairock.iot.intelDev.device.Device
-import com.bairock.iot.intelDev.device.IStateDev
-import com.bairock.iot.intelDev.device.devcollect.DevCollect
 import com.bairock.iot.intelDev.user.MyHome
+import com.bairock.iot.smartremoter.adapter.AdapterDevices
 import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
 
@@ -17,13 +16,7 @@ object MyOnNameChangedListener : MyHome.OnNameChangedListener {
     }
 
     private fun refreshUi(device: Device) {
-        if (device is IStateDev) {
-//                if(null != ElectricalCtrlFragment.handler){
-//                    ElectricalCtrlFragment.handler.obtainMessage(ElectricalCtrlFragment.NOTIFY_ADAPTER, RecyclerAdapterElectrical3.NAME, RecyclerAdapterElectrical3.NAME, device)
-//                }
-        }else if(device is DevCollect){
-
-        }
+        AdapterDevices.handler.obtainMessage(AdapterDevices.NAME, device).sendToTarget()
     }
 
     private fun updateDeviceDao(device: Device) {

@@ -3,6 +3,8 @@ package com.bairock.iot.smartremoter.communication
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.main.CtrlFragment
+import com.bairock.iot.smartremoter.main.DevicesFragment
 
 object MyOnDevHaveChildeOnCollectionChangedListener : DevHaveChild.OnDeviceCollectionChangedListener {
 
@@ -16,6 +18,8 @@ object MyOnDevHaveChildeOnCollectionChangedListener : DevHaveChild.OnDeviceColle
     }
 
     private fun refreshUi() {
+        DevicesFragment.handler.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
+        CtrlFragment.handler.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
 //        if (null != SearchActivity.handler) {
 //            SearchActivity.handler.obtainMessage(SearchActivity.handler.UPDATE_LIST).sendToTarget()
 //        }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.AsyncTask
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import com.bairock.iot.intelDev.communication.DevServer
@@ -21,6 +22,7 @@ import com.bairock.iot.smartremoter.data.DeviceDao
 import com.bairock.iot.smartremoter.esptouch.task.EsptouchTask
 import com.bairock.iot.smartremoter.esptouch.task.IEsptouchResult
 import com.bairock.iot.smartremoter.esptouch.task.IEsptouchTask
+import com.bairock.iot.smartremoter.settings.ConfigResult
 import java.lang.ref.WeakReference
 
 class EspAddDevice(private val context: Context) {
@@ -36,6 +38,7 @@ class EspAddDevice(private val context: Context) {
     private var configOk: Boolean = false
     private var mWifiAdmin = EspWifiAdminSimple(context)
     private var mProgressDialog: ProgressDialog? = null
+    private var handler : Handler? = null
 
     private val moniAdd = false
 
@@ -47,13 +50,14 @@ class EspAddDevice(private val context: Context) {
         return ssid
     }
 
-    fun startConfig(psd: String) {
+    fun startConfig(psd: String, handler: Handler) {
+        this.handler = handler
         CONFIGING = true
         DEVICE = null
         RECEIVED_OK_COUNT = 0
         if (moniAdd) {
             ConfigDeviceTask(this@EspAddDevice).execute()
-            showConfigProgress(null)
+            //showConfigProgress(null)
         } else {
             val apBssid = mWifiAdmin.wifiConnectedBssid
             //Boolean isSsidHidden = false;
@@ -86,8 +90,8 @@ class EspAddDevice(private val context: Context) {
         }
 
         override fun onPreExecute() {
-            val theActivity = mActivity.get()
-            theActivity!!.showConfigProgress(mEsptouchTask)
+//            val theActivity = mActivity.get()
+//            theActivity!!.showConfigProgress(mEsptouchTask)
         }
 
         override fun doInBackground(vararg params: String): List<IEsptouchResult> {
@@ -132,7 +136,7 @@ class EspAddDevice(private val context: Context) {
                         }
                     }
                 } else {
-                    theActivity!!.configResult(false, "请检查路由器名称和密码是否正确")
+                    theActivity!!.configResult(ConfigResult.NET_ERROR)
                 }
             }
         }
@@ -176,14 +180,14 @@ class EspAddDevice(private val context: Context) {
                 val ip = IntelDevHelper.getLocalIp()
                 val seekOrder = getSeekOrder(ip, DevServer.PORT)
                 var count = 1
-                publishProgress(0, 0)
+                //publishProgress(0, 0)
                 do {
                     if (count >= 10) {
                         return false
                     }
                     UdpServer.getIns().send(seekOrder)
                     Thread.sleep(5000)
-                    publishProgress(count * 10)
+                    //publishProgress(count * 10)
                     Log.e("EsptouchAct", "DEVICE" + DEVICE!!)
                     count++
                 } while (DEVICE == null && CONFIGING)
@@ -191,7 +195,7 @@ class EspAddDevice(private val context: Context) {
                     return false
                 }
                 if (TCP_CONFIG_MODEL) {
-                    publishProgress(100, 1)
+                    //publishProgress(100, 1)
                     return true
                 }
 
@@ -200,7 +204,7 @@ class EspAddDevice(private val context: Context) {
                 //发送收到设备编码成功信息
                 count = 1
                 val deviceCodingOrder = getDeviceConfigOkOrder()
-                publishProgress(50, 1)
+                //publishProgress(50, 1)
                 do {
                     if (count >= 6 && DEVICE!!.getDevStateId() == DevStateHelper.CONFIGING) {
                         return false
@@ -210,7 +214,7 @@ class EspAddDevice(private val context: Context) {
                     Log.e("EsptouchAct", "send config ok order $deviceCodingOrder")
                     //UdpMsgSender.getIns().send(deviceCodingOrder);
                     Thread.sleep(5000)
-                    publishProgress(50 + count * 8)
+                    //publishProgress(50 + count * 8)
                     count++
                 } while (DEVICE!!.devStateId == DevStateHelper.CONFIGING && CONFIGING && RECEIVED_OK_COUNT < 2)
                 if (RECEIVED_OK_COUNT >= 2) {
@@ -221,7 +225,7 @@ class EspAddDevice(private val context: Context) {
                     }
                 }
                 Log.e("EsptouchAct", "config ok")
-                publishProgress(100)
+                //publishProgress(100)
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -267,10 +271,12 @@ class EspAddDevice(private val context: Context) {
                         LinkageTab.getIns().addTabRow(device1)
                     }
                 }
-                theActivity.configResult(true, device.coding)
+                val result = ConfigResult.SUCCESS
+                result.msg += ", ${device.coding}"
+                theActivity.configResult(ConfigResult.SUCCESS)
             } else {
                 //设备无返回，配置失败
-                theActivity.configResult(false, "设备无响应")
+                theActivity.configResult(ConfigResult.DEVICE_ERROR)
             }
         }
 
@@ -289,19 +295,20 @@ class EspAddDevice(private val context: Context) {
         }
     }
 
-    private fun configResult(result: Boolean, message: String) {
+    private fun configResult(result : ConfigResult) {
         CONFIGING = false
-        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
-        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).text = "确定"
-        configOk = if (result) {
-            mProgressDialog!!.setMessage("配置成功,设备编码:$message")
-            mProgressDialog!!.setIcon(R.drawable.ic_check_pink_24dp)
-            true
-        } else {
-            mProgressDialog!!.setMessage("配置失败:$message")
-            mProgressDialog!!.setIcon(R.drawable.ic_close_pink_24dp)
-            false
-        }
+        handler!!.obtainMessage(0, result)
+//        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
+//        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).text = "确定"
+//        configOk = if (result) {
+//            mProgressDialog!!.setMessage("配置成功,设备编码:$message")
+//            mProgressDialog!!.setIcon(R.drawable.ic_check_pink_24dp)
+//            true
+//        } else {
+//            mProgressDialog!!.setMessage("配置失败:$message")
+//            mProgressDialog!!.setIcon(R.drawable.ic_close_pink_24dp)
+//            false
+//        }
         DEVICE = null
         RECEIVED_OK_COUNT = 0
     }

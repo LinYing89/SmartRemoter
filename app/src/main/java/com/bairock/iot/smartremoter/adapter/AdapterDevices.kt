@@ -13,6 +13,7 @@ import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.intelDev.device.devcollect.DevCollectClimateContainer
 import com.bairock.iot.intelDev.device.remoter.Curtain
+import com.bairock.iot.intelDev.device.remoter.Remoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.device.remoter.Television
 import com.bairock.iot.smartremoter.R
@@ -76,6 +77,7 @@ class AdapterDevices(context : Context, private val listDevice: List<Device>) : 
                 is DevCollectClimateContainer -> {imgDevice.setImageResource(R.drawable.ic_tem)}
                 is Television -> {imgDevice.setImageResource(R.drawable.ic_tv)}
                 is Curtain -> {imgDevice.setImageResource(R.drawable.ic_curtain)}
+                is Remoter -> {imgDevice.setImageResource(R.drawable.ic_custom_remoter)}
             }
         }
 
@@ -84,6 +86,10 @@ class AdapterDevices(context : Context, private val listDevice: List<Device>) : 
         }
 
         internal fun refreshState() {
+            if(device.parent != null){
+                redGreen.visibility = View.GONE
+                return
+            }
             if (!device.isNormal) {
                 redGreen.visibility = View.VISIBLE
             } else {
