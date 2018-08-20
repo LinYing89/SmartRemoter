@@ -1,5 +1,6 @@
 package com.bairock.iot.smartremoter.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -8,12 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bairock.iot.intelDev.device.Device
+import com.bairock.iot.intelDev.device.remoter.Curtain
+import com.bairock.iot.intelDev.device.remoter.CustomRemoter
+import com.bairock.iot.intelDev.device.remoter.Television
 import com.bairock.iot.intelDev.user.DevGroup
 import com.bairock.iot.intelDev.user.IntelDevHelper
 
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.adapter.RecyclerAdapterCollect
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.settings.DragRemoteSetLayoutActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
 import kotlinx.android.synthetic.main.fragment_devices.*
 import java.lang.ref.WeakReference
@@ -68,7 +73,15 @@ class CtrlFragment : BaseFragment() {
 
     private val onItemClickListener = SwipeItemClickListener { _: View, i: Int ->
         IntelDevHelper.OPERATE_DEVICE = listShowDevices[i]
-
+        when(IntelDevHelper.OPERATE_DEVICE){
+            is Television -> { }
+            is Curtain ->{}
+            is CustomRemoter ->{
+                val intent = Intent(this.context, DragRemoterActivity::class.java)
+                intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
+                startActivity(intent)
+            }
+        }
     }
 
     class MyHandler(fragment: CtrlFragment) : Handler() {

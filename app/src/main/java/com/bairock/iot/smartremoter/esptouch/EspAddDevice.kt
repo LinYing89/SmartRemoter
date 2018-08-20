@@ -24,10 +24,12 @@ import com.bairock.iot.smartremoter.esptouch.task.IEsptouchResult
 import com.bairock.iot.smartremoter.esptouch.task.IEsptouchTask
 import com.bairock.iot.smartremoter.settings.ConfigResult
 import java.lang.ref.WeakReference
+import java.util.concurrent.Executors
 
 class EspAddDevice(private val context: Context) {
 
     companion object {
+        private val TAG = "EspAddDevice"
         var DEVICE: Device? = null
         var RECEIVED_OK_COUNT: Int = 0
         var CONFIGING: Boolean = false
@@ -35,12 +37,13 @@ class EspAddDevice(private val context: Context) {
         private val TCP_CONFIG_MODEL = true
     }
 
+
     private var configOk: Boolean = false
     private var mWifiAdmin = EspWifiAdminSimple(context)
     private var mProgressDialog: ProgressDialog? = null
     private var handler : Handler? = null
 
-    private val moniAdd = false
+    private val moniAdd = true
 
     private fun getSsid(): String {
         var ssid = mWifiAdmin.wifiConnectedSsid
@@ -51,12 +54,13 @@ class EspAddDevice(private val context: Context) {
     }
 
     fun startConfig(psd: String, handler: Handler) {
+        Log.e(TAG, "startConfig")
         this.handler = handler
         CONFIGING = true
         DEVICE = null
         RECEIVED_OK_COUNT = 0
         if (moniAdd) {
-            ConfigDeviceTask(this@EspAddDevice).execute()
+            ConfigDeviceTask(this).executeOnExecutor(Executors.newCachedThreadPool())
             //showConfigProgress(null)
         } else {
             val apBssid = mWifiAdmin.wifiConnectedBssid
@@ -67,7 +71,7 @@ class EspAddDevice(private val context: Context) {
             //                if (isSsidHidden){
             //                    isSsidHiddenStr = "YES";
             //                }
-            EsptouchAsyncTask3(this).execute(getSsid(), apBssid, psd,
+            EsptouchAsyncTask3(this).executeOnExecutor(Executors.newCachedThreadPool(),getSsid(), apBssid, psd,
                     isSsidHiddenStr, taskResultCountStr)
         }
     }
@@ -176,19 +180,21 @@ class EspAddDevice(private val context: Context) {
 
         override fun doInBackground(vararg params: Void): Boolean? {
             try {
+                Log.e(TAG, " ConfigDeviceTask doInBackground")
+                val theActivity = mActivity.get()!!
                 //发送寻找正在配置设备的报文
                 val ip = IntelDevHelper.getLocalIp()
                 val seekOrder = getSeekOrder(ip, DevServer.PORT)
-                var count = 1
+                var count = 0
                 //publishProgress(0, 0)
                 do {
-                    if (count >= 10) {
+                    if (count >= 8) {
                         return false
                     }
                     UdpServer.getIns().send(seekOrder)
                     Thread.sleep(5000)
                     //publishProgress(count * 10)
-                    Log.e("EsptouchAct", "DEVICE" + DEVICE!!)
+                    Log.e("EsptouchAct", "DEVICE$DEVICE")
                     count++
                 } while (DEVICE == null && CONFIGING)
                 if (null == DEVICE) {
@@ -247,9 +253,9 @@ class EspAddDevice(private val context: Context) {
             }
         }
 
-        override fun onPostExecute(success: Boolean?) {
+        override fun onPostExecute(success: Boolean) {
             val theActivity = mActivity.get()!!
-            if (success!!) {
+            if (success) {
                 val device = DEVICE
                 device!!.ctrlModel = CtrlModel.LOCAL
                 val device2 = HamaApp.DEV_GROUP.findDeviceWithCoding(device.coding)
@@ -297,7 +303,7 @@ class EspAddDevice(private val context: Context) {
 
     private fun configResult(result : ConfigResult) {
         CONFIGING = false
-        handler!!.obtainMessage(0, result)
+        handler!!.obtainMessage(0, result).sendToTarget()
 //        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
 //        mProgressDialog!!.getButton(DialogInterface.BUTTON_POSITIVE).text = "确定"
 //        configOk = if (result) {

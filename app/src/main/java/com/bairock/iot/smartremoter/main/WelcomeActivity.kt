@@ -9,7 +9,9 @@ import android.util.DisplayMetrics
 import android.view.View
 import com.bairock.iot.intelDev.communication.*
 import com.bairock.iot.intelDev.device.*
+import com.bairock.iot.intelDev.device.remoter.CustomRemoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
+import com.bairock.iot.intelDev.device.remoter.RemoterKey
 import com.bairock.iot.intelDev.linkage.LinkageHelper
 import com.bairock.iot.intelDev.linkage.LinkageTab
 import com.bairock.iot.intelDev.linkage.guagua.GuaguaHelper
@@ -230,7 +232,10 @@ class WelcomeActivity : AppCompatActivity() {
             devGroupDao.add(devGroup)
 
             val remoterContainer = DeviceAssistent.createDeviceByMcId(MainCodeHelper.YAO_KONG, "9999") as RemoterContainer
-
+            val r = DeviceAssistent.createDeviceByMc(MainCodeHelper.SMC_REMOTER_ZI_DING_YI, "1") as CustomRemoter
+            val rk = RemoterKey("1", "1")
+            r.addRemoterKey(rk)
+            remoterContainer.addChildDev(r)
             devGroup.addDevice(remoterContainer)
 
             SdDbHelper.replaceDbUser(user)

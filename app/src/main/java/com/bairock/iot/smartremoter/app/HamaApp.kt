@@ -33,6 +33,7 @@ class HamaApp : Application() {
         fun setDeviceListener(device: Device) {
             device.setOnSortIndexChangedListener(MyOnSortIndexChangedListener())
             device.addOnNameChangedListener(MyOnNameChangedListener)
+            device.onStateChanged = MyOnStateChangedListener()
 
             if (device is DevHaveChild) {
                 //协调器添加子设备集合改变监听器

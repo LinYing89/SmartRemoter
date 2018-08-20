@@ -13,13 +13,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:text="@string/add_device_tip"
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/add_device_tip" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etxtSsid"
@@ -57,11 +56,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_dark"
+        android:text="配置"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        tools:text="配置" />
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
     <com.daimajia.numberprogressbar.NumberProgressBar
         android:id="@+id/progressConfig"

@@ -15,9 +15,17 @@ object Constant {
      */
     var titleHeight: Int = 0
 
+    fun displayWidthPx() : Int{
+        return dip2px(displayWidth.toFloat())
+    }
+
+    fun displayHeightPx() : Int{
+        return dip2px(displayHeight.toFloat())
+    }
+
     fun getRemoterKeyWidth(): Int{
 //        return com.videogo.util.Utils.px2dip(HamaApp.HAMA_CONTEXT, 50f)
-        return dip2px(50f)
+        return dip2px(60f)
     }
 
     fun dip2px(dpValue: Float): Int {

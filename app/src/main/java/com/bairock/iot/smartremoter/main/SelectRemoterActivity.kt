@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.widget.AdapterView
 import com.bairock.iot.smartremoter.R
@@ -42,4 +43,10 @@ class SelectRemoterActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            setResult(Activity.RESULT_CANCELED, Intent())
+        }
+        return super.onKeyUp(keyCode, event)
+    }
 }

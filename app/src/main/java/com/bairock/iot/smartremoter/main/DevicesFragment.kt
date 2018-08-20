@@ -19,7 +19,7 @@ import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.intelDev.device.devcollect.DevCollectSignalContainer
 import com.bairock.iot.intelDev.device.devswitch.DevSwitch
-import com.bairock.iot.intelDev.device.remoter.Remoter
+import com.bairock.iot.intelDev.device.remoter.CustomRemoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.user.DevGroup
 import com.bairock.iot.intelDev.user.ErrorCodes
@@ -29,6 +29,8 @@ import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.adapter.AdapterDevices
 import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
+import com.bairock.iot.smartremoter.settings.AddDeviceActivity
+import com.bairock.iot.smartremoter.settings.DragRemoteSetLayoutActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
@@ -68,6 +70,11 @@ class DevicesFragment : BaseFragment() {
         btnAddRemoter.setOnClickListener {
             val intent = Intent(this.context!!, SelectRemoterActivity::class.java)
             startActivityForResult(intent, RESULT_CODE_SELECT_REMOTER)
+        }
+
+        btnAddDevice.setOnClickListener {
+            val intent = Intent(this.context!!, AddDeviceActivity::class.java)
+            startActivity(intent)
         }
 
         HamaApp.DEV_GROUP.addOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
@@ -167,9 +174,10 @@ class DevicesFragment : BaseFragment() {
 //            this.context!!.startActivity(Intent(this@SearchActivity, ChildElectricalActivity::class.java))
         } else if (IntelDevHelper.OPERATE_DEVICE is DevHaveChild) {
             nextPage()
-        } else if (IntelDevHelper.OPERATE_DEVICE is Remoter) {
-//            DragRemoteSetLayoutActivity.Companion.setREMOTER(IntelDevHelper.OPERATE_DEVICE as Remoter)
-//            startActivity(Intent(this@SearchActivity, DragRemoteSetLayoutActivity::class.java))
+        } else if (IntelDevHelper.OPERATE_DEVICE is CustomRemoter) {
+            val intent = Intent(this.context, DragRemoteSetLayoutActivity::class.java)
+            intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
+            startActivity(intent)
         }
     }
 

@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bairock.iot.smartremoter">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name=".app.HamaApp"
         android:allowBackup="true"
@@ -30,8 +39,13 @@
         <activity android:name=".logs.BridgesStateActivity" />
         <activity android:name=".logs.BridgeMsgTestActivity" />
         <activity android:name=".main.SelectRemoterActivity" />
-        <activity android:name=".settings.AddDeviceActivity"
-            android:label="添加设备"/>
+        <activity
+            android:name=".settings.AddDeviceActivity"
+            android:label="添加设备" />
+        <activity android:name=".settings.DragRemoteSetLayoutActivity" />
+        <activity android:name=".main.DragRemoterActivity" />
+        <activity android:name=".main.StudyKeyActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
     </application>
 
 </manifest>

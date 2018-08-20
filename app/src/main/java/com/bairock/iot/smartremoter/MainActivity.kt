@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import android.view.MenuItem
 import com.bairock.iot.smartremoter.adapter.MainPagerAdapter
 import com.bairock.iot.smartremoter.main.BaseFragment
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() , BaseFragment.OnFragmentInteractionListener {
 
     private var whichFragment = 0
+    private var backBtnIsShow = false
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -57,6 +59,19 @@ class MainActivity : AppCompatActivity() , BaseFragment.OnFragmentInteractionLis
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            return if(backBtnIsShow){
+                DevicesFragment.handler.obtainMessage(DevicesFragment.PREVIOUS_PAGE).sendToTarget()
+                true
+            }else {
+                moveTaskToBack(true)
+                true
+            }
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
     override fun onFragmentInteraction(uri: Uri) {
 
     }
@@ -79,7 +94,7 @@ class MainActivity : AppCompatActivity() , BaseFragment.OnFragmentInteractionLis
     }
 
     override fun showBack(show: Boolean) {
-        //supportActionBar?.setHomeButtonEnabled(show)
+        backBtnIsShow = show
         supportActionBar?.setDisplayHomeAsUpEnabled(show)
     }
 }
