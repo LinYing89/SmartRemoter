@@ -42,10 +42,13 @@
         <activity
             android:name=".settings.AddDeviceActivity"
             android:label="添加设备" />
-        <activity android:name=".settings.DragRemoteSetLayoutActivity" />
-        <activity android:name=".main.DragRemoterActivity" />
-        <activity android:name=".main.StudyKeyActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".remoter.DragRemoteSetLayoutActivity" />
+        <activity android:name=".remoter.DragRemoterActivity" />
+        <activity
+            android:name=".remoter.StudyKeyActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+        <activity android:name=".remoter.TelevisionActivity" />
+        <activity android:name=".remoter.CurtainActivity"></activity>
     </application>
 
 </manifest>

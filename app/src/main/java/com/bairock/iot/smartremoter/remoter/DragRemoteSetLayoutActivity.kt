@@ -1,4 +1,4 @@
-package com.bairock.iot.smartremoter.settings
+package com.bairock.iot.smartremoter.remoter
 
 import android.app.AlertDialog
 import android.graphics.Color

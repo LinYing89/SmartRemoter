@@ -1,11 +1,10 @@
-package com.bairock.iot.smartremoter.main
+package com.bairock.iot.smartremoter.remoter
 
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -39,11 +38,6 @@ class DragRemoterActivity : AppCompatActivity() {
         setGridView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_add_custom_key, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
@@ -66,7 +60,8 @@ class DragRemoterActivity : AppCompatActivity() {
     private fun createAndAddDragRemoterButton(remoterKey : RemoterKey){
         val rb = createDragRemoterButton(remoterKey)
         rb.setOnLongClickListener { p0 ->
-            showPopUp(p0)
+            StudyHelper.showPopUp(p0, this)
+//            showPopUp(p0)
             false
         }
         rb.setOnClickListener{
@@ -101,17 +96,19 @@ class DragRemoterActivity : AppCompatActivity() {
     }
 
     private fun showPopUp(v: View) {
+        val layout = this.layoutInflater
+                .inflate(R.layout.layout_key_study, null)
+        val btnStudy = layout.findViewById(R.id.btnStudy) as Button
+
         val rb = v as DragRemoterKeyButton
-        val btnStudy = Button(this)
-        btnStudy.text = "学习"
-        val popupWindow = PopupWindow(btnStudy, Constant.dip2px(100f),  Constant.dip2px(46f))
+        val popupWindow = PopupWindow(layout, Constant.dip2px(108f),  Constant.dip2px(70f))
 
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val location = IntArray(2)
-        v.getLocationOnScreen(location)
+//        val location = IntArray(2)
+//        v.getLocationOnScreen(location)
 
         popupWindow.showAsDropDown(v)
         btnStudy.setOnClickListener {

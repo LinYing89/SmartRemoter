@@ -18,7 +18,8 @@ import com.bairock.iot.intelDev.user.IntelDevHelper
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.adapter.RecyclerAdapterCollect
 import com.bairock.iot.smartremoter.app.HamaApp
-import com.bairock.iot.smartremoter.settings.DragRemoteSetLayoutActivity
+import com.bairock.iot.smartremoter.remoter.DragRemoterActivity
+import com.bairock.iot.smartremoter.remoter.TelevisionActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
 import kotlinx.android.synthetic.main.fragment_devices.*
 import java.lang.ref.WeakReference
@@ -74,7 +75,11 @@ class CtrlFragment : BaseFragment() {
     private val onItemClickListener = SwipeItemClickListener { _: View, i: Int ->
         IntelDevHelper.OPERATE_DEVICE = listShowDevices[i]
         when(IntelDevHelper.OPERATE_DEVICE){
-            is Television -> { }
+            is Television -> {
+                val intent = Intent(this.context, TelevisionActivity::class.java)
+                intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
+                startActivity(intent)
+            }
             is Curtain ->{}
             is CustomRemoter ->{
                 val intent = Intent(this.context, DragRemoterActivity::class.java)

@@ -1,4 +1,4 @@
-package com.bairock.iot.smartremoter.main
+package com.bairock.iot.smartremoter.remoter
 
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
@@ -31,14 +31,15 @@ class StudyKeyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study_key)
 
-
         val actionBar = supportActionBar
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true)
             actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.title = remoterKey!!.name
+            actionBar.title = "按键:${remoterKey!!.name}"
+        }else{
+            title = "按键:${remoterKey!!.name}"
         }
-        title = remoterKey!!.name
+
         setListener()
 
         handler = MyHandler(this)
@@ -93,6 +94,7 @@ class StudyKeyActivity : AppCompatActivity() {
                 llTest.visibility = View.VISIBLE
             }
             else ->{
+                Toast.makeText(this, "学习成功", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

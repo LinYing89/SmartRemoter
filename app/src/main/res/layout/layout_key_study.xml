@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="108dp"
+    android:layout_height="70dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        app:cardBackgroundColor="@android:color/holo_blue_light"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="4dp"
+        app:contentPadding="4dp">
+
+        <Button
+            android:id="@+id/btnStudy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="学   习"
+            android:textColor="@android:color/white" />
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

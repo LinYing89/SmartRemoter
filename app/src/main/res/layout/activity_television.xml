@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tv_bg"
+    tools:context=".remoter.TelevisionActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="8dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/imgMute"
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/mute" />
+
+                        <Button
+                            android:id="@+id/btnMute"
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/imgPower"
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/power" />
+
+                        <Button
+                            android:id="@+id/btnPower"
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent" />
+                    </FrameLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey1"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="1"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey2"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="2"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey3"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="3"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey4"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="4"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey5"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="5"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey6"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="6"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey7"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="7"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey8"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="8"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey9"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="9"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKey0"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="0"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyBack"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="返回"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyTvAv"
+                            android:layout_width="52dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="TV/AV"
+                            android:textColor="@color/black_font"
+                            android:textSize="12sp" />
+                    </FrameLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:id="@+id/imgVoice"
+                    android:layout_width="258dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ctrl_voice" />
+
+                <Button
+                    android:id="@+id/btnVoiceLeft"
+                    android:layout_width="100dp"
+                    android:layout_height="36dp"
+                    android:background="@android:color/transparent" />
+
+                <Button
+                    android:id="@+id/btnVoiceRight"
+                    android:layout_width="100dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:id="@+id/imgCtrl"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ctrl_direct" />
+
+                <ImageView
+                    android:id="@+id/imgOk"
+                    android:layout_width="82dp"
+                    android:layout_height="82dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/key_ok" />
+
+                <Button
+                    android:id="@+id/btnOk"
+                    android:layout_width="82dp"
+                    android:layout_height="82dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent" />
+
+                <Button
+                    android:id="@+id/btnLeft"
+                    android:layout_width="54dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent" />
+
+                <Button
+                    android:id="@+id/btnTop"
+                    android:layout_width="80dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent" />
+
+                <Button
+                    android:id="@+id/btnRight"
+                    android:layout_width="54dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@android:color/transparent" />
+
+                <Button
+                    android:id="@+id/btnDown"
+                    android:layout_width="80dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@android:color/transparent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>

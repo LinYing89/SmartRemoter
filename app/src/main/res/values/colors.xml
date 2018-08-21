@@ -8,12 +8,14 @@
     <color name="air_blue">#1296db</color>
     <color name="red_normal">#FF0000</color>
     <color name="green">#29ab3f</color>
-    <color name="green_tv">#01DCB0</color>
-    <color name="green_curtain">#18D4D4</color>
-    <color name="orange">#F08E4E</color>
+    <color name="green_tv">#01dcb0</color>
+    <color name="green_curtain">#18d4d4</color>
+    <color name="orange">#f08e4e</color>
 
-    <color name="background">#F3F3F3</color>
+    <color name="background">#f3f3f3</color>
     <color name="break_line">#d6d7d7</color>
+    <color name="tv_bg">#dedede</color>
+    <color name="black_font">#707070</color>
     <color name="black_overlay">#66000000</color>
     <color name="black_action_bar">#000000</color>
 </resources>

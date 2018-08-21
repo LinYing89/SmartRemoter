@@ -30,7 +30,7 @@ import com.bairock.iot.smartremoter.adapter.AdapterDevices
 import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
 import com.bairock.iot.smartremoter.settings.AddDeviceActivity
-import com.bairock.iot.smartremoter.settings.DragRemoteSetLayoutActivity
+import com.bairock.iot.smartremoter.remoter.DragRemoteSetLayoutActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem

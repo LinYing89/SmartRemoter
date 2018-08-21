@@ -12,10 +12,7 @@ import android.widget.TextView
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.intelDev.device.devcollect.DevCollectClimateContainer
-import com.bairock.iot.intelDev.device.remoter.Curtain
-import com.bairock.iot.intelDev.device.remoter.Remoter
-import com.bairock.iot.intelDev.device.remoter.RemoterContainer
-import com.bairock.iot.intelDev.device.remoter.Television
+import com.bairock.iot.intelDev.device.remoter.*
 import com.bairock.iot.smartremoter.R
 import java.lang.ref.WeakReference
 
@@ -66,7 +63,7 @@ class AdapterDevices(context : Context, private val listDevice: List<Device>) : 
             refreshName()
             refreshState()
             txtCoding.text = device.longCoding
-            if(device is DevHaveChild){
+            if(device is DevHaveChild || device is CustomRemoter){
                 imgHaveChild.visibility = View.VISIBLE
             }else{
                 imgHaveChild.visibility = View.GONE

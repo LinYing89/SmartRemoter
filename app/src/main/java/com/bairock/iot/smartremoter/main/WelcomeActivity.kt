@@ -12,6 +12,7 @@ import com.bairock.iot.intelDev.device.*
 import com.bairock.iot.intelDev.device.remoter.CustomRemoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.device.remoter.RemoterKey
+import com.bairock.iot.intelDev.device.remoter.Television
 import com.bairock.iot.intelDev.linkage.LinkageHelper
 import com.bairock.iot.intelDev.linkage.LinkageTab
 import com.bairock.iot.intelDev.linkage.guagua.GuaguaHelper
@@ -233,9 +234,12 @@ class WelcomeActivity : AppCompatActivity() {
 
             val remoterContainer = DeviceAssistent.createDeviceByMcId(MainCodeHelper.YAO_KONG, "9999") as RemoterContainer
             val r = DeviceAssistent.createDeviceByMc(MainCodeHelper.SMC_REMOTER_ZI_DING_YI, "1") as CustomRemoter
-            val rk = RemoterKey("1", "1")
+            val rk = RemoterKey("01", "1")
             r.addRemoterKey(rk)
             remoterContainer.addChildDev(r)
+
+            val tv = DeviceAssistent.createDeviceByMc(MainCodeHelper.SMC_REMOTER_DIAN_SHI, "1") as Television
+            remoterContainer.addChildDev(tv)
             devGroup.addDevice(remoterContainer)
 
             SdDbHelper.replaceDbUser(user)
