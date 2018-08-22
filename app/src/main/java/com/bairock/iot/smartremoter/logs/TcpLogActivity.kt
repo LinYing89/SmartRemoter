@@ -1,13 +1,16 @@
 package com.bairock.iot.smartremoter.logs
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import com.bairock.iot.smartremoter.R
-import kotlinx.android.synthetic.main.activity_tcp_log.*
+import kotlinx.android.synthetic.main.activity_bridge_msg_test.*
 import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,17 +43,22 @@ class TcpLogActivity : AppCompatActivity() {
             val dft = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
             netMsgType.time = dft.format(Date())
             listNetMsgType.add(netMsgType)
-            if(null != handler) {
-                handler!!.obtainMessage().sendToTarget()
+
+            if (null != handler) {
+                val typeD: String = if (netMsgType.type == 0) {
+                    " <- "
+                } else {
+                    " -> "
+                }
+                val str = typeD + netMsgType.time + " " + netMsgType.msg
+                handler!!.obtainMessage(0, str).sendToTarget()
             }
         }
     }
 
-    private lateinit var adapterMsg: AdapterBridgeMsg
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tcp_log)
+        setContentView(R.layout.activity_bridge_msg_test)
 
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -58,8 +66,38 @@ class TcpLogActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
 
+        val sb = StringBuilder()
+        for (netMsgType in listNetMsgType) {
+            val type: String = if (netMsgType.type == 0) {
+                " <- "
+            } else {
+                " -> "
+            }
+            sb.append(type)
+
+            sb.append(netMsgType.time)
+            sb.append(" ")
+            sb.append(netMsgType.msg)
+            sb.append("\n")
+        }
+        val text = sb.toString()
+        val sTextSpannable = SpannableString(text)
+        var index1: Int
+        var index2 = 0
+        while (true) {
+            index1 = text.indexOf("<", index2)
+            if (index1 == -1) {
+                break
+            }
+            index2 = text.indexOf("\n", index1)
+            if (index2 == -1) {
+                break
+            }
+            sTextSpannable.setSpan(ForegroundColorSpan(Color.RED), index1, index2, 0)
+        }
+        tvLogs.text = sTextSpannable
+
         handler = MyHandler(this)
-        setListAdapter()
         isPaused = false
     }
 
@@ -84,7 +122,7 @@ class TcpLogActivity : AppCompatActivity() {
             }
             R.id.menu_clean -> {
                 listNetMsgType.clear()
-                adapterMsg.notifyDataSetChanged()
+                tvLogs.text = ""
             }
         }
         return super.onOptionsItemSelected(item)
@@ -95,18 +133,22 @@ class TcpLogActivity : AppCompatActivity() {
         handler = null
     }
 
-    private fun setListAdapter() {
-        adapterMsg = AdapterBridgeMsg(this, listNetMsgType)
-        lvMsg.adapter = adapterMsg
-    }
-
     class MyHandler(activity : TcpLogActivity) : Handler(){
         private var mActivity = WeakReference<TcpLogActivity>(activity)
 
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
+            val act = mActivity.get()!!
             if (!isPaused) {
-                mActivity.get()!!.adapterMsg.notifyDataSetChanged()
+                val str = msg.obj.toString() + "\n"
+                if (str.contains("<")) {
+                    val sTextSpannable = SpannableString(str)
+                    sTextSpannable.setSpan(ForegroundColorSpan(Color.RED), 1, str.length, 0)
+                    //                        theActivity.tvLogs.setText(sTextSpannable);
+                    act.tvLogs!!.append(sTextSpannable)
+                } else {
+                    act.tvLogs!!.append(msg.obj.toString() + "\n")
+                }
             }
         }
     }

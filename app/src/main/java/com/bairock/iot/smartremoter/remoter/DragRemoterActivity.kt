@@ -1,14 +1,8 @@
 package com.bairock.iot.smartremoter.remoter
 
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
-import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import com.bairock.iot.intelDev.device.remoter.Remoter
 import com.bairock.iot.intelDev.device.remoter.RemoterKey
@@ -32,6 +26,7 @@ class DragRemoterActivity : AppCompatActivity() {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true)
             actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.title = remoter.name
         }
 
         initListButtons()
@@ -93,28 +88,5 @@ class DragRemoterActivity : AppCompatActivity() {
         layoutParams.leftMargin = cb.remoterKey.locationX
         cb.layoutParams = layoutParams
         layoutRoot.addView(cb)
-    }
-
-    private fun showPopUp(v: View) {
-        val layout = this.layoutInflater
-                .inflate(R.layout.layout_key_study, null)
-        val btnStudy = layout.findViewById(R.id.btnStudy) as Button
-
-        val rb = v as DragRemoterKeyButton
-        val popupWindow = PopupWindow(layout, Constant.dip2px(108f),  Constant.dip2px(70f))
-
-        popupWindow.isFocusable = true
-        popupWindow.isOutsideTouchable = true
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-//        val location = IntArray(2)
-//        v.getLocationOnScreen(location)
-
-        popupWindow.showAsDropDown(v)
-        btnStudy.setOnClickListener {
-            popupWindow.dismiss()
-            StudyKeyActivity.remoterKey = rb.remoterKey
-            startActivity(Intent(this, StudyKeyActivity::class.java))
-        }
     }
 }

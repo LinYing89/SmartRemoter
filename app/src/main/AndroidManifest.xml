@@ -22,8 +22,7 @@
         <activity
             android:name=".main.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,12 +32,13 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_welcome" />
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/MyAppTheme"/>
         <activity android:name=".logs.UdpLogActivity" />
         <activity android:name=".logs.TcpLogActivity" />
         <activity android:name=".logs.BridgesStateActivity" />
         <activity android:name=".logs.BridgeMsgTestActivity" />
-        <activity android:name=".main.SelectRemoterActivity" />
+        <activity android:name=".remoter.SelectRemoterActivity" />
         <activity
             android:name=".settings.AddDeviceActivity"
             android:label="添加设备" />

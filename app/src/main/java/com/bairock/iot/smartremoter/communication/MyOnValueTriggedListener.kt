@@ -15,7 +15,6 @@ class MyOnValueTriggedListener : CollectProperty.OnValueTriggedListener{
         //如果服务器已连接，本地不提醒，只允许服务器推送提醒，如果服务器未连接，本地推送提醒
         if(p0.collectProperty.devCollect.ctrlModel == CtrlModel.LOCAL){
             val content = p0.collectProperty.devCollect.name + ":" + p0.message+ "(当前值:" + p1 + ")"
-            pushLocal("提醒", content)
         }
     }
 
@@ -25,7 +24,4 @@ class MyOnValueTriggedListener : CollectProperty.OnValueTriggedListener{
     override fun onValueTriggedRelieve(p0: ValueTrigger, p1: Float) {
     }
 
-    private fun pushLocal(title : String, content : String){
-
-    }
 }

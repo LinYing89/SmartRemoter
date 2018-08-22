@@ -16,7 +16,7 @@ object MyOnNameChangedListener : MyHome.OnNameChangedListener {
     }
 
     private fun refreshUi(device: Device) {
-        AdapterDevices.handler.obtainMessage(AdapterDevices.NAME, device).sendToTarget()
+        AdapterDevices.handler?.obtainMessage(AdapterDevices.NAME, device)?.sendToTarget()
     }
 
     private fun updateDeviceDao(device: Device) {

@@ -39,7 +39,7 @@ class MyOnStateChangedListener : Device.OnStateChangedListener {
 
     private fun refreshUi(device: Device) {
         if (device.parent == null) {
-            AdapterDevices.handler.obtainMessage(AdapterDevices.STATE, device).sendToTarget()
+            AdapterDevices.handler?.obtainMessage(AdapterDevices.STATE, device)?.sendToTarget()
         }
     }
 }

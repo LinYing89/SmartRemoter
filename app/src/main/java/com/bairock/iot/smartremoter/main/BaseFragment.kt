@@ -1,17 +1,19 @@
 package com.bairock.iot.smartremoter.main
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-open class BaseFragment : Fragment() {
-    var listener: OnFragmentInteractionListener? = null
+open class BaseFragment : Fragment(), IFragment {
 
-    var fragment = 0
+    override fun onKeyDown(): Boolean {
+        return false
+    }
+
+    var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +30,17 @@ open class BaseFragment : Fragment() {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
-            //setTitle()
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
+    //页面显示或隐藏是调用
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if(isVisibleToUser){
-            setTitle()
+        if(isVisibleToUser && null != listener){
+            listener!!.onFragmentInteraction(null)
         }
-    }
-
-    private fun setTitle(){
-        listener?.onTitle(0)
     }
 
     override fun onDetach() {
@@ -51,8 +49,6 @@ open class BaseFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
-        fun onTitle(fragment : Int)
-        fun showBack(show : Boolean)
+        fun onFragmentInteraction(fragment: IFragment?)
     }
 }

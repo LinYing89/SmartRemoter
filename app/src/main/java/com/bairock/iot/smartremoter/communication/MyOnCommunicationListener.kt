@@ -12,6 +12,7 @@ class MyOnCommunicationListener : DevChannelBridge.OnCommunicationListener {
         BridgesStateActivity.sendCountAnd(devChannelBridge.channelId, devChannelBridge.sendCount, s)
     }
 
+    //因为收到信息后是先打印, 后解析, 所以第一条信息不知道设备编码
     override fun onReceived(devChannelBridge: DevChannelBridge, s: String) {
         TcpLogActivity.addRec("id:" + devChannelBridge.channelId + " - " + s)
         devChannelBridge.receivedCountAnd1()

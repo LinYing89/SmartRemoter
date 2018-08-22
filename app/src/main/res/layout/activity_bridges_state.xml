@@ -40,7 +40,7 @@
             android:textSize="8sp" />
     </LinearLayout>
 
-    <ListView
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/lvBridge"
         android:layout_width="match_parent"
         android:layout_height="0dp"

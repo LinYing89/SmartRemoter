@@ -13,6 +13,7 @@ import com.bairock.iot.intelDev.device.Coordinator
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.intelDev.device.devcollect.DevCollect
+import com.bairock.iot.intelDev.device.devcollect.DevCollectClimateContainer
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.user.DevGroup
 import com.bairock.iot.intelDev.user.User
@@ -38,9 +39,9 @@ class HamaApp : Application() {
             if (device is DevHaveChild) {
                 //协调器添加子设备集合改变监听器
                 if (device is Coordinator) {
-                    device.addOnDeviceCollectionChangedListener(MyOnDevHaveChildeOnCollectionChangedListener)
+                    device.addOnDeviceCollectionChangedListener(MyOnDevHaveChildOnCollectionChangedListener)
                 } else if (device is RemoterContainer) {
-                    device.addOnDeviceCollectionChangedListener(MyOnDevHaveChildeOnCollectionChangedListener)
+                    device.addOnDeviceCollectionChangedListener(MyOnDevHaveChildOnCollectionChangedListener)
                     device.onRemoterOrderSuccessListener = MyOnRemoterOrderSuccessListener()
                 }
                 for (device1 in device.listDev) {
@@ -75,6 +76,21 @@ class HamaApp : Application() {
 
         fun sendOrder(device: Device, order: String, immediately: Boolean) {
             DevChannelBridgeHelper.getIns().sendDevOrder(device, order, immediately)
+        }
+
+        fun findClimate(list : List<Device>) : DevCollectClimateContainer?{
+            var device : DevCollectClimateContainer? = null
+            for(dev in list){
+                if(dev is DevCollectClimateContainer){
+                    device = dev;
+                }else if(dev is DevHaveChild){
+                    device = findClimate(dev.listDev)
+                }
+                if(device != null){
+                    break;
+                }
+            }
+            return device
         }
     }
     override fun attachBaseContext(base: Context) {

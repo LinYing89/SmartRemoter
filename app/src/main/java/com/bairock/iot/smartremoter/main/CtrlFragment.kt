@@ -18,21 +18,17 @@ import com.bairock.iot.intelDev.user.IntelDevHelper
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.adapter.RecyclerAdapterCollect
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.remoter.CurtainActivity
 import com.bairock.iot.smartremoter.remoter.DragRemoterActivity
 import com.bairock.iot.smartremoter.remoter.TelevisionActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
-import kotlinx.android.synthetic.main.fragment_devices.*
+import kotlinx.android.synthetic.main.fragment_ctrl.*
 import java.lang.ref.WeakReference
 
 class CtrlFragment : BaseFragment() {
 
     private lateinit var listShowDevices: List<Device>
     private var adapterDevices: RecyclerAdapterCollect? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        fragment = 1
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,27 +38,35 @@ class CtrlFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeMenuRecyclerViewDevice.layoutManager = GridLayoutManager(this.context, 3)
-        //swipeMenuRecyclerViewDevice.addItemDecoration(DefaultItemDecoration(Color.LTGRAY))
         swipeMenuRecyclerViewDevice.setSwipeItemClickListener(onItemClickListener)
-        //swipeMenuRecyclerViewDevice.addItemDecoration(DefaultItemDecoration(Color.TRANSPARENT), 0)
         setDeviceList()
         handler = MyHandler(this)
 
         HamaApp.DEV_GROUP.addOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
+
+        val devClimate = HamaApp.findClimate(HamaApp.DEV_GROUP.listDevice)
+
+        if(devClimate != null){
+            devClimate.findTemperatureDev().collectProperty.currentValue = 19.26f
+            devClimate.findHumidityDev().collectProperty.currentValue = 62f
+            txtTem.text = devClimate.findTemperatureDev().collectProperty.valueWithSymbol
+            txtHum.text = devClimate.findHumidityDev().collectProperty.valueWithSymbol
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        RecyclerAdapterCollect.handler = null
         HamaApp.DEV_GROUP.removeOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
     }
 
     private val onDeviceCollectionChangedListener = object : DevGroup.OnDeviceCollectionChangedListener {
         override fun onAdded(device: Device) {
-            handler.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
+            handler!!.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
         }
 
         override fun onRemoved(device: Device) {
-            handler.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
+            handler!!.obtainMessage(DevicesFragment.RELOAD_LIST).sendToTarget()
         }
     }
 
@@ -80,7 +84,11 @@ class CtrlFragment : BaseFragment() {
                 intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
                 startActivity(intent)
             }
-            is Curtain ->{}
+            is Curtain ->{
+                val intent = Intent(this.context, CurtainActivity::class.java)
+                intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
+                startActivity(intent)
+            }
             is CustomRemoter ->{
                 val intent = Intent(this.context, DragRemoterActivity::class.java)
                 intent.putExtra("coding", IntelDevHelper.OPERATE_DEVICE.longCoding)
@@ -99,12 +107,21 @@ class CtrlFragment : BaseFragment() {
                 DevicesFragment.RELOAD_LIST -> {
                     mFragment.setDeviceList()
                 }
+                REFRESH_TEM -> {
+                    mFragment.txtTem.text = msg.obj.toString()
+                }
+                REFRESH_HUM -> {
+                    mFragment.txtHum.text = msg.obj.toString()
+                }
             }
         }
     }
 
     companion object {
-        lateinit var handler: MyHandler
+        var handler: MyHandler? = null
+
+        var REFRESH_TEM = 1
+        var REFRESH_HUM = 2
 
         @JvmStatic
         fun newInstance() =

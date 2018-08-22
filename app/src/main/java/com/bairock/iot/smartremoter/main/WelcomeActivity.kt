@@ -9,10 +9,8 @@ import android.util.DisplayMetrics
 import android.view.View
 import com.bairock.iot.intelDev.communication.*
 import com.bairock.iot.intelDev.device.*
-import com.bairock.iot.intelDev.device.remoter.CustomRemoter
-import com.bairock.iot.intelDev.device.remoter.RemoterContainer
-import com.bairock.iot.intelDev.device.remoter.RemoterKey
-import com.bairock.iot.intelDev.device.remoter.Television
+import com.bairock.iot.intelDev.device.devcollect.DevCollectClimateContainer
+import com.bairock.iot.intelDev.device.remoter.*
 import com.bairock.iot.intelDev.linkage.LinkageHelper
 import com.bairock.iot.intelDev.linkage.LinkageTab
 import com.bairock.iot.intelDev.linkage.guagua.GuaguaHelper
@@ -240,7 +238,17 @@ class WelcomeActivity : AppCompatActivity() {
 
             val tv = DeviceAssistent.createDeviceByMc(MainCodeHelper.SMC_REMOTER_DIAN_SHI, "1") as Television
             remoterContainer.addChildDev(tv)
+
+            val curtain = DeviceAssistent.createDeviceByMc(MainCodeHelper.SMC_REMOTER_CHUANG_LIAN, "1") as Curtain
+            remoterContainer.addChildDev(curtain)
             devGroup.addDevice(remoterContainer)
+
+            val coordinator = DeviceAssistent.createDeviceByMc(MainCodeHelper.XIE_TIAO_QI, "9999") as Coordinator
+            val climate = DeviceAssistent.createDeviceByMc(MainCodeHelper.COLLECTOR_CLIMATE_CONTAINER, "1") as DevCollectClimateContainer
+            climate.findTemperatureDev().collectProperty.currentValue = 19.6f
+            climate.findHumidityDev().collectProperty.currentValue = 60f
+            coordinator.addChildDev(climate)
+            devGroup.addDevice(coordinator)
 
             SdDbHelper.replaceDbUser(user)
         }

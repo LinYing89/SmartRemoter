@@ -31,6 +31,7 @@ class TelevisionActivity : AppCompatActivity() {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true)
             actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.title = remoter.name
         }
 
         for (btn in keys) {

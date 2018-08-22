@@ -9,9 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bairock.iot.intelDev.device.Coordinator
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
 import com.bairock.iot.intelDev.device.devcollect.DevCollectClimateContainer
+import com.bairock.iot.intelDev.device.devcollect.Formaldehyde
+import com.bairock.iot.intelDev.device.devcollect.Humidity
+import com.bairock.iot.intelDev.device.devcollect.Temperature
 import com.bairock.iot.intelDev.device.remoter.*
 import com.bairock.iot.smartremoter.R
 import java.lang.ref.WeakReference
@@ -24,7 +28,7 @@ class AdapterDevices(context : Context, private val listDevice: List<Device>) : 
     companion object {
         const val STATE = 2
         const val NAME = 3
-        lateinit var handler : MyHandler
+        var handler : MyHandler? = null
     }
 
     init {
@@ -71,7 +75,10 @@ class AdapterDevices(context : Context, private val listDevice: List<Device>) : 
 
             when(device){
                 is RemoterContainer ->{imgDevice.setImageResource(R.drawable.ic_remoter_container)}
-                is DevCollectClimateContainer -> {imgDevice.setImageResource(R.drawable.ic_tem)}
+                is DevCollectClimateContainer, is Temperature -> {imgDevice.setImageResource(R.drawable.ic_tem)}
+                is Humidity -> {imgDevice.setImageResource(R.drawable.ic_hum)}
+                is Formaldehyde -> {imgDevice.setImageResource(R.drawable.ic_hcho)}
+                is Coordinator -> {imgDevice.setImageResource(R.drawable.ic_device)}
                 is Television -> {imgDevice.setImageResource(R.drawable.ic_tv)}
                 is Curtain -> {imgDevice.setImageResource(R.drawable.ic_curtain)}
                 is Remoter -> {imgDevice.setImageResource(R.drawable.ic_custom_remoter)}

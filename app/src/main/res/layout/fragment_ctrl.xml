@@ -7,9 +7,16 @@
     android:background="@color/background"
     tools:context=".main.CtrlFragment">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/toolbar_theme"
+        app:title="控制" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/llClimate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -19,7 +26,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <ImageView
             android:id="@+id/imageView"
@@ -35,8 +42,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="19℃" />
+            android:minWidth="42dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="19.25℃" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -53,8 +61,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="60%" />
+            android:minWidth="42dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="68%" />
 
     </LinearLayout>
 
@@ -70,5 +79,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/llClimate" />
 </android.support.constraint.ConstraintLayout>

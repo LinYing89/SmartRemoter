@@ -19,7 +19,7 @@ class RecyclerAdapterCollect(context: Context, private val listDevice: List<Devi
 
     companion object {
         const val NAME = 2
-        lateinit var handler : MyHandler
+        var handler : MyHandler? = null
     }
 
     init {

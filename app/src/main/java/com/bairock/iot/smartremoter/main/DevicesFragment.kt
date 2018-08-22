@@ -2,22 +2,25 @@ package com.bairock.iot.smartremoter.main
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.EditText
 import android.widget.Toast
+import com.bairock.iot.intelDev.communication.DevChannelBridgeHelper
 import com.bairock.iot.intelDev.device.Coordinator
 import com.bairock.iot.intelDev.device.DevHaveChild
 import com.bairock.iot.intelDev.device.Device
-import com.bairock.iot.intelDev.device.devcollect.DevCollectSignalContainer
+import com.bairock.iot.intelDev.device.OrderHelper
 import com.bairock.iot.intelDev.device.devswitch.DevSwitch
 import com.bairock.iot.intelDev.device.remoter.CustomRemoter
 import com.bairock.iot.intelDev.device.remoter.RemoterContainer
@@ -31,6 +34,7 @@ import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
 import com.bairock.iot.smartremoter.settings.AddDeviceActivity
 import com.bairock.iot.smartremoter.remoter.DragRemoteSetLayoutActivity
+import com.bairock.iot.smartremoter.remoter.SelectRemoterActivity
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem
@@ -38,6 +42,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener
 import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration
 import kotlinx.android.synthetic.main.fragment_devices.*
 import java.lang.ref.WeakReference
+import java.util.concurrent.TimeUnit
 
 class DevicesFragment : BaseFragment() {
 
@@ -45,8 +50,8 @@ class DevicesFragment : BaseFragment() {
     private var rootDevice: Device? = null
     private var adapterDevices: AdapterDevices? = null
 
+    var childDevAdding = false
     override fun onCreate(savedInstanceState: Bundle?) {
-        fragment = 0
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
@@ -59,6 +64,10 @@ class DevicesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //(activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            previousPage()
+        }
         swipeMenuRecyclerViewDevice.layoutManager = LinearLayoutManager(this.context)
         swipeMenuRecyclerViewDevice.addItemDecoration(DefaultItemDecoration(Color.LTGRAY))
         swipeMenuRecyclerViewDevice.setSwipeMenuCreator(swipeMenuConditionCreator)
@@ -67,22 +76,58 @@ class DevicesFragment : BaseFragment() {
         setDeviceList(HamaApp.DEV_GROUP.listDevice)
         handler = MyHandler(this)
 
+        //添加遥控器
         btnAddRemoter.setOnClickListener {
             val intent = Intent(this.context!!, SelectRemoterActivity::class.java)
             startActivityForResult(intent, RESULT_CODE_SELECT_REMOTER)
         }
 
+        //配置设备
         btnAddDevice.setOnClickListener {
             val intent = Intent(this.context!!, AddDeviceActivity::class.java)
             startActivity(intent)
         }
 
+        //搜索ziggbee设备
+        btnSearchDevice.setOnClickListener{
+            val addDeviceTask = AddDeviceTask(this)
+            addDeviceTask.execute()
+        }
+
         HamaApp.DEV_GROUP.addOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if(isVisibleToUser){
+            listener!!.onFragmentInteraction(this)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                //设备界面上一页
+                previousPage()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        AdapterDevices.handler = null
         HamaApp.DEV_GROUP.removeOnDeviceCollectionChangedListener(onDeviceCollectionChangedListener)
+    }
+
+    override fun onKeyDown(): Boolean {
+        if(toolbar.navigationIcon != null){
+            previousPage()
+            return true
+        }else{
+            return false
+        }
     }
 
     private fun setDeviceList(list: List<Device>) {
@@ -169,7 +214,7 @@ class DevicesFragment : BaseFragment() {
 
     private val onItemClickListener = SwipeItemClickListener { _: View, i: Int ->
         IntelDevHelper.OPERATE_DEVICE = listShowDevices[i]
-        if (IntelDevHelper.OPERATE_DEVICE is DevSwitch || IntelDevHelper.OPERATE_DEVICE is DevCollectSignalContainer) {
+        if (IntelDevHelper.OPERATE_DEVICE is DevSwitch) {
 //            ChildElectricalActivity.controller = IntelDevHelper.OPERATE_DEVICE as DevHaveChild
 //            this.context!!.startActivity(Intent(this@SearchActivity, ChildElectricalActivity::class.java))
         } else if (IntelDevHelper.OPERATE_DEVICE is DevHaveChild) {
@@ -183,11 +228,11 @@ class DevicesFragment : BaseFragment() {
 
     private val onDeviceCollectionChangedListener = object : DevGroup.OnDeviceCollectionChangedListener {
         override fun onAdded(device: Device) {
-            handler.obtainMessage(RELOAD_LIST).sendToTarget()
+            handler!!.obtainMessage(RELOAD_LIST).sendToTarget()
         }
 
         override fun onRemoved(device: Device) {
-            handler.obtainMessage(RELOAD_LIST).sendToTarget()
+            handler!!.obtainMessage(RELOAD_LIST).sendToTarget()
         }
     }
 
@@ -217,7 +262,7 @@ class DevicesFragment : BaseFragment() {
     }
 
     private fun nextPage() {
-        listener!!.showBack(true)
+        showBack(true)
         rootDevice = IntelDevHelper.OPERATE_DEVICE
         setDeviceList((rootDevice as DevHaveChild).listDev)
     }
@@ -227,6 +272,15 @@ class DevicesFragment : BaseFragment() {
         setDeviceList(list)
     }
 
+    private fun showBack(show : Boolean){
+        if(show){
+            toolbar.setNavigationIcon(R.drawable.ic_back)
+        }else {
+            toolbar.navigationIcon = null
+        }
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(show)
+    }
+
     private fun getRootDevices(rootDevice: Device?): List<Device> {
         if (null == rootDevice) {
             return HamaApp.DEV_GROUP.listDevice
@@ -234,7 +288,7 @@ class DevicesFragment : BaseFragment() {
         val parent = rootDevice.parent
         this.rootDevice = parent
         return if (null == parent) {
-            listener!!.showBack(false)
+            showBack(false)
             HamaApp.DEV_GROUP.listDevice
         } else (parent as DevHaveChild).listDev
     }
@@ -246,12 +300,11 @@ class DevicesFragment : BaseFragment() {
             if (requestCode == RESULT_CODE_SELECT_REMOTER) {
                 //选择遥控器界面返回
                 val mainCodeId = data.getStringExtra("remoterCode")
-                val name = data.getStringExtra("remoterName")
                 val rc = rootDevice as RemoterContainer
                 val remoter = rc.createRemoter(mainCodeId)
-                remoter.name = name + remoter.subCode
                 rc.addChildDev(remoter)
                 DeviceDao.get(this.context!!).add(remoter)
+                showRenameDialog(remoter)
                 //adapterDevices!!.notifyDataSetChanged()
             }
         }
@@ -273,13 +326,101 @@ class DevicesFragment : BaseFragment() {
                 RELOAD_LIST -> {
                     mFragment.reloadNowDevices()
                 }
+                DEV_ADD_CHILD -> mFragment.childDevAdding = false
             }
+        }
+    }
+
+    private class AddDeviceTask(activity: DevicesFragment) : AsyncTask<Void, Void, Boolean>() {
+
+        internal var progressDialog = ProgressDialog(activity.context)
+
+        internal var mActivity = WeakReference<DevicesFragment>(activity)
+
+        init {
+            showAddChildDevDialog()
+        }
+
+        override fun doInBackground(vararg params: Void): Boolean? {
+            val theAct = mActivity.get()!!
+            (theAct.rootDevice as Coordinator).isConfigingChildDevice = true
+            theAct.childDevAdding = true
+
+            var count = 0
+            while (count < 100 && !this.isCancelled) {
+                if (!theAct.childDevAdding) {
+                    return true
+                }
+
+                if(count % 20 == 0) {
+                    DevChannelBridgeHelper.getIns().sendDevOrder(theAct.rootDevice,
+                            OrderHelper.getOrderMsg("?"), true)
+                }
+                count++
+                progressDialog.progress = count
+                try {
+                    TimeUnit.MILLISECONDS.sleep(250)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+            return false
+        }
+
+        override fun onPostExecute(success: Boolean?) {
+            addResult(success!!)
+        }
+
+        override fun onCancelled() {
+            val theAct = mActivity.get()!!
+            (theAct.rootDevice as Coordinator).isConfigingChildDevice = false
+        }
+
+        private fun addResult(result: Boolean) {
+
+            progressDialog.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
+            progressDialog.getButton(DialogInterface.BUTTON_NEGATIVE).isEnabled = false
+            if (result) {
+                progressDialog.setIcon(R.drawable.ic_check_pink_24dp)
+                progressDialog.progress = 100
+                setDialogMessage("添加成功")
+            } else {
+                progressDialog.setIcon(R.drawable.ic_close_pink_24dp)
+                progressDialog.progress = 0
+                setDialogMessage("添加失败")
+            }
+            val theAct = mActivity.get()!!
+            (theAct.rootDevice as Coordinator).isConfigingChildDevice = false
+        }
+
+        internal fun setDialogMessage(msg: String) {
+            progressDialog.setMessage(msg)
+        }
+
+        private fun showAddChildDevDialog() {
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+            progressDialog.setTitle("添加子设备")
+            progressDialog.setMessage("请稍等")
+            progressDialog.setCanceledOnTouchOutside(false)
+            progressDialog.max = 100
+            progressDialog.setIcon(R.drawable.ic_zoom_in_pink_24dp)
+            progressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定"
+            ) { _, _ -> progressDialog.dismiss() }
+            //设置取消按钮
+            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消"
+            ) { _, _ ->
+                this.cancel(true)
+                progressDialog.dismiss()
+            }
+            progressDialog.setCancelable(true)
+            progressDialog.show()
+            progressDialog.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
         }
     }
 
     companion object {
 
-        lateinit var handler: MyHandler
+        var handler: MyHandler? = null
         const val NEXT_PAGE = 0
 
         /**
@@ -291,10 +432,6 @@ class DevicesFragment : BaseFragment() {
          */
         const val RESULT_CODE_SELECT_REMOTER = 2
 
-        const val NO_MESSAGE = 3
-        const val SEARCH_OK = 4
-        const val UPDATE_LIST = 5
-        const val CTRL_MODEL_PROGRESS = 6
         const val RELOAD_LIST = 7
         const val DEV_ADD_CHILD = 8
 

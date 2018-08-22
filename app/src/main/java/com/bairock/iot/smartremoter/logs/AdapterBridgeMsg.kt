@@ -1,6 +1,5 @@
 package com.bairock.iot.smartremoter.logs
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +22,7 @@ class AdapterBridgeMsg(private val context: Context, private val listDevChannelB
         return position.toLong()
     }
 
-    @SuppressLint("ViewHolder", "InflateParams")
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val cView = mInflater.inflate(R.layout.layout_bridge_msg, null)
         val tvTime = cView.findViewById(R.id.tvTime) as TextView

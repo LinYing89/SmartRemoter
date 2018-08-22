@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.bairock.iot.intelDev.communication.DevChannelBridgeHelper
 import com.bairock.iot.smartremoter.R
 import kotlinx.android.synthetic.main.activity_bridges_state.*
@@ -37,9 +39,7 @@ class BridgesStateActivity : AppCompatActivity() {
                 if (bridgeState.channelId.equals(channelId)) {
                     bridgeState.recCount = count
                     bridgeState.addMsg(0, msg)
-                    //                if(bridgeState.getDevCoding() == null){
                     bridgeState.setDevCoding(devCoding)
-                    //                }
                     if (null != myHandler) {
                         myHandler!!.obtainMessage(0).sendToTarget()
                     }
@@ -95,8 +95,10 @@ class BridgesStateActivity : AppCompatActivity() {
                 listBridgeState.remove(bridgeState)
             }
         }
-        setAdapter()
+
+        lvBridge.layoutManager = LinearLayoutManager(this)
         setListener()
+        setAdapter()
         myHandler = MyHandler(this)
     }
 
@@ -127,8 +129,8 @@ class BridgesStateActivity : AppCompatActivity() {
     }
 
     private fun setListener() {
-        lvBridge.setOnItemClickListener { parent, view, position, id ->
-            BridgeMsgTestActivity.bridgeState = listBridgeState[position]
+        lvBridge.setSwipeItemClickListener{ _: View, i: Int ->
+            BridgeMsgTestActivity.bridgeState = listBridgeState[i]
             startActivity(Intent(this@BridgesStateActivity, BridgeMsgTestActivity::class.java))
         }
     }

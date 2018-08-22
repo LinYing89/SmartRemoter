@@ -5,6 +5,7 @@ import com.bairock.iot.intelDev.device.*
 import com.bairock.iot.smartremoter.app.HamaApp
 import com.bairock.iot.smartremoter.data.DeviceDao
 import com.bairock.iot.smartremoter.esptouch.EspAddDevice
+import com.bairock.iot.smartremoter.main.DevicesFragment
 
 class MyMessageAnalysiser : MessageAnalysiser() {
 
@@ -45,7 +46,6 @@ class MyMessageAnalysiser : MessageAnalysiser() {
             if (codings.size < 2) {
                 return false
             }
-            //Device device = DeviceAssistent.createDeviceByCoding(codings[1]);
             val device = HamaApp.DEV_GROUP.findDeviceWithCoding(codings[1])
             if (null == device || device !is Coordinator) {
                 return false
@@ -67,9 +67,7 @@ class MyMessageAnalysiser : MessageAnalysiser() {
                     }
                 }
             }
-//            if (null != SearchActivity.handler) {
-//                SearchActivity.handler.obtainMessage(SearchActivity.handler.DEV_ADD_CHILD).sendToTarget()
-//            }
+            DevicesFragment.handler?.obtainMessage(DevicesFragment.DEV_ADD_CHILD)?.sendToTarget()
             return false
         }
         return true
