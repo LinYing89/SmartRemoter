@@ -20,8 +20,7 @@
     <LinearLayout
         android:id="@+id/llTest"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginEnd="6dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -32,11 +31,63 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/layoutSettings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
             android:maxHeight="@android:dimen/notification_large_icon_height"
-            android:minHeight="@android:dimen/app_icon_size"
-            android:background="?android:attr/selectableItemBackground">
+            android:minHeight="@android:dimen/app_icon_size">
+
+            <ImageView
+                android:id="@+id/imageViewSet"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_settings_black_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="设置"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageViewSet"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/break_line"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layoutTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:maxHeight="@android:dimen/notification_large_icon_height"
+            android:minHeight="@android:dimen/app_icon_size">
 
             <ImageView
                 android:id="@+id/imageView5"

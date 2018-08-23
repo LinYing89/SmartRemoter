@@ -9,6 +9,7 @@ import android.widget.Button
 import com.bairock.iot.intelDev.device.remoter.Remoter
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.media.Media
 import kotlinx.android.synthetic.main.activity_television.*
 
 class TelevisionActivity : AppCompatActivity() {
@@ -25,7 +26,8 @@ class TelevisionActivity : AppCompatActivity() {
 
         keys = arrayOf(btnMute, btnPower, btnKey1, btnKey2, btnKey3, btnKey4, btnKey5,
                 btnKey6, btnKey7, btnKey8, btnKey9, btnKey0, btnKeyBack, btnKeyTvAv, btnVoiceLeft,
-                btnVoiceRight, btnLeft, btnTop, btnRight, btnDown, btnOk)
+                btnVoiceRight, btnLeft, btnTop, btnRight, btnDown, btnOk, btnKeyExtend1, btnKeyExtend2,
+                btnKeyExtend3, btnKeyExtend4, btnKeyExtend5, btnKeyExtend6, btnKeyExtend7, btnKeyExtend8)
 
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -38,6 +40,12 @@ class TelevisionActivity : AppCompatActivity() {
             btn.setOnTouchListener(onTouchListener)
             btn.setOnClickListener(onClickListener)
             btn.setOnLongClickListener(onLongClickListener)
+        }
+
+        for(i in 21 until keys.size - 1){
+            val btn = keys[i]
+            val key = remoter.findKeyByNumber((i + 1).toString())
+            btn.text = key.name
         }
     }
 
@@ -119,13 +127,19 @@ class TelevisionActivity : AppCompatActivity() {
     }
 
     private val onClickListener = View.OnClickListener {
+        Media.playCtrlRing()
         val index = keys.indexOf(it)
-        val key = remoter.listRemoterKey[index]
+        val key = remoter.findKeyByNumber((index + 1).toString())
         HamaApp.sendOrder(key.remoter.parent, key.createTestKeyOrder(), true)
     }
 
     private val onLongClickListener = View.OnLongClickListener {
-        StudyHelper.showPopUp(it, remoter.listRemoterKey[keys.indexOf(it)], this)
+        val index = keys.indexOf(it) + 1
+        if(index >= 22){
+            StudyHelper.showPopUp(it, remoter.findKeyByNumber(index.toString()), true, this)
+        }else {
+            StudyHelper.showPopUp(it, remoter.findKeyByNumber(index.toString()), this)
+        }
         true
     }
 

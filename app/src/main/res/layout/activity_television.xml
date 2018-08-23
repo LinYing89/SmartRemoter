@@ -396,6 +396,158 @@
 
             </FrameLayout>
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend1"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展1"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend2"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展2"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend3"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展3"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend4"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展4"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend5"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展5"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend6"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展6"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend7"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展7"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/btnKeyExtend8"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/key_bg"
+                            android:text="扩展8"
+                            android:textColor="@color/black_font" />
+                    </FrameLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/dp_108"
-    android:layout_height="@dimen/dp_70">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@android:color/holo_blue_light"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp"
-        app:contentPadding="4dp">
+        app:contentPadding="2dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            style="?android:attr/buttonBarButtonStyle">
+            <Button
+                android:id="@+id/btnStudy"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_40"
+                style="?android:attr/buttonBarStyle"
+                android:text="学   习" />
 
-        <Button
-            android:id="@+id/btnStudy"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:text="学   习"
-            android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/btnRename"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_40"
+                style="?android:attr/buttonBarStyle"
+                android:visibility="gone"
+                android:text="重命名" />
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </FrameLayout>

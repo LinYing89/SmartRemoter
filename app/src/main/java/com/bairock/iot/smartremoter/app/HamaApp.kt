@@ -18,6 +18,7 @@ import com.bairock.iot.intelDev.device.remoter.RemoterContainer
 import com.bairock.iot.intelDev.user.DevGroup
 import com.bairock.iot.intelDev.user.User
 import com.bairock.iot.smartremoter.communication.*
+import com.bairock.iot.smartremoter.media.Media
 
 class HamaApp : Application() {
 
@@ -101,6 +102,8 @@ class HamaApp : Application() {
     override fun onCreate() {
         super.onCreate()
         HAMA_CONTEXT = this.applicationContext
+
+        Media.init(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val builder = StrictMode.VmPolicy.Builder()

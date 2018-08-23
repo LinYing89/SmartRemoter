@@ -10,6 +10,7 @@ import com.bairock.iot.smartremoter.R
 import kotlinx.android.synthetic.main.fragment_me.*
 import com.bairock.iot.smartremoter.app.LogUtils
 import com.bairock.iot.smartremoter.logs.BridgesStateActivity
+import com.bairock.iot.smartremoter.settings.SettingsActivity
 
 
 class MeFragment : BaseFragment() {
@@ -23,13 +24,17 @@ class MeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (LogUtils.APP_DBG) {
-            llTest.visibility = View.VISIBLE
+            layoutTest.visibility = View.VISIBLE
         } else {
-            llTest.visibility = View.GONE
+            layoutTest.visibility = View.GONE
         }
 
-        llTest.setOnClickListener{
+        layoutTest.setOnClickListener{
             startActivity(Intent(this.context, BridgesStateActivity::class.java))
+        }
+
+        layoutSettings.setOnClickListener{
+            startActivity(Intent(this.context, SettingsActivity::class.java))
         }
     }
 

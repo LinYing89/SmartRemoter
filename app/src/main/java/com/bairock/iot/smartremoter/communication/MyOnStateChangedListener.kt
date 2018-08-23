@@ -9,6 +9,7 @@ import com.bairock.iot.smartremoter.adapter.AdapterDevices
 import com.bairock.iot.smartremoter.app.HamaApp
 
 class MyOnStateChangedListener : Device.OnStateChangedListener {
+
     override fun onNormalToAbnormal(p0: Device?) {
         //refreshUi(p0!!)
         HamaApp.addOfflineDevCoding(p0)

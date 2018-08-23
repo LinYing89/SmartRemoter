@@ -7,6 +7,7 @@ import android.view.View
 import com.bairock.iot.intelDev.device.remoter.Remoter
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.media.Media
 import kotlinx.android.synthetic.main.activity_curtain.*
 
 class CurtainActivity : AppCompatActivity() {
@@ -44,6 +45,7 @@ class CurtainActivity : AppCompatActivity() {
     }
 
     private val onClickListener = View.OnClickListener {
+        Media.playCtrlRing()
         val index = keys.indexOf(it)
         val key = remoter.listRemoterKey[index]
         HamaApp.sendOrder(key.remoter.parent, key.createTestKeyOrder(), true)

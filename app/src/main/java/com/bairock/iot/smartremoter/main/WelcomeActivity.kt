@@ -30,6 +30,8 @@ import com.bairock.iot.smartremoter.data.SdDbHelper
 import com.bairock.iot.smartremoter.data.UserDao
 import com.bairock.iot.smartremoter.logs.MyOnBridgesChangedListener
 import com.bairock.iot.smartremoter.logs.UdpLogActivity
+import com.bairock.iot.smartremoter.media.Media
+import com.bairock.iot.smartremoter.settings.Config
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import java.lang.ref.WeakReference
 import java.util.*
@@ -104,6 +106,9 @@ class WelcomeActivity : AppCompatActivity() {
             mActivity.get()!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
             Constant.displayWidth = displayMetrics.widthPixels
             Constant.displayHeight = displayMetrics.heightPixels
+
+            //初始化系统设置
+            Config.init(mActivity.get()!!)
 
             initUser()
 

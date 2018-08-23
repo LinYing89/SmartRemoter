@@ -19,14 +19,10 @@ import java.util.concurrent.Executors
 
 class AddDeviceActivity : AppCompatActivity() {
 
-//    companion object {
-//        var handler : MyHandler? = null
-//    }
-
     var handler : MyHandler? = null
 
-    var configTask : ConfigProgressTask? = null
-    var espAddDevice : EspAddDevice = EspAddDevice(this)
+    private var configTask : ConfigProgressTask? = null
+    private var espAddDevice : EspAddDevice = EspAddDevice(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +36,16 @@ class AddDeviceActivity : AppCompatActivity() {
 
         handler = MyHandler(this)
         btnConfig.setOnClickListener { it.visibility = View.GONE
+            val psd = etxtPsd.text.toString()
+            Config.setRoutePsd(this, psd)
             progressConfig.progress = 0
             progressConfig.visibility = View.VISIBLE
             configTask = ConfigProgressTask(this)
             configTask!!.executeOnExecutor(Executors.newCachedThreadPool())
-            espAddDevice.startConfig("123", handler!!)
+            espAddDevice.startConfig(psd, handler!!)
         }
+
+        etxtPsd.setText(Config.routePsd)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

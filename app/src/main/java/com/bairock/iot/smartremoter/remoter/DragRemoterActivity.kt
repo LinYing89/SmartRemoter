@@ -9,6 +9,7 @@ import com.bairock.iot.intelDev.device.remoter.RemoterKey
 import com.bairock.iot.smartremoter.R
 import com.bairock.iot.smartremoter.app.Constant
 import com.bairock.iot.smartremoter.app.HamaApp
+import com.bairock.iot.smartremoter.media.Media
 import com.bairock.iot.smartremoter.zview.DragRemoterKeyButton
 import kotlinx.android.synthetic.main.activity_drag_remoter.*
 
@@ -60,6 +61,7 @@ class DragRemoterActivity : AppCompatActivity() {
             false
         }
         rb.setOnClickListener{
+            Media.playCtrlRing()
             val remoterKey1 = (it as DragRemoterKeyButton).remoterKey
             HamaApp.sendOrder(remoterKey1.remoter.parent, remoterKey1.createCtrlKeyOrder(), true)
         }
