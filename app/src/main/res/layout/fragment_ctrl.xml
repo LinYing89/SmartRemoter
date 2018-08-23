@@ -30,8 +30,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_tem" />
@@ -42,14 +42,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:minWidth="42dp"
+            android:minWidth="@dimen/dp_42"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="19.25℃" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
             android:scaleType="fitCenter"
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:minWidth="42dp"
+            android:minWidth="@dimen/dp_42"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="68%" />
 
@@ -71,11 +71,11 @@
         android:id="@+id/swipeMenuRecyclerViewDevice"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_3"
+        android:layout_marginStart="@dimen/dp_3"
+        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

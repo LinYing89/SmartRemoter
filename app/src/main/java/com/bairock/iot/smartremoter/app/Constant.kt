@@ -1,5 +1,7 @@
 package com.bairock.iot.smartremoter.app
 
+import com.bairock.iot.smartremoter.R
+
 object Constant {
     /**
      * screen width
@@ -24,7 +26,9 @@ object Constant {
     }
 
     fun getRemoterKeyWidth(): Int{
-//        return com.videogo.util.Utils.px2dip(HamaApp.HAMA_CONTEXT, 50f)
+//        val pxValue2 = HamaApp.HAMA_CONTEXT.resources.getDimension(R.dimen.dp_60);//获取对应资源文件下的dp值
+//        val dpValue = dip2px(pxValue2);//将px值转换成dp值
+//        return dpValue
         return dip2px(60f)
     }
 

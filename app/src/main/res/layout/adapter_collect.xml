@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="86dp"
-    android:layout_margin="3dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="3dp"
-    app:contentPadding="3dp">
+    android:layout_height="@dimen/dp_86"
+    android:layout_margin="@dimen/dp_3"
+    app:cardCornerRadius="@dimen/dp_6"
+    app:cardElevation="@dimen/dp_3"
+    app:contentPadding="@dimen/dp_3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/imgDevice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/dp_10"
             android:layout_weight="2"
             app:srcCompat="@drawable/ic_custom_remoter" />
 

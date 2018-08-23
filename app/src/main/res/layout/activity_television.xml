@@ -10,10 +10,10 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_46"
+        android:layout_marginStart="@dimen/dp_46"
+        android:layout_marginTop="@dimen/dp_8"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,15 +44,15 @@
 
                         <ImageView
                             android:id="@+id/imgMute"
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
+                            android:layout_width="@dimen/dp_54"
+                            android:layout_height="@dimen/dp_54"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/mute" />
 
                         <Button
                             android:id="@+id/btnMute"
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
+                            android:layout_width="@dimen/dp_54"
+                            android:layout_height="@dimen/dp_54"
                             android:layout_gravity="center"
                             android:background="@android:color/transparent" />
                     </FrameLayout>
@@ -78,15 +78,15 @@
 
                         <ImageView
                             android:id="@+id/imgPower"
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
+                            android:layout_width="@dimen/dp_54"
+                            android:layout_height="@dimen/dp_54"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/power" />
 
                         <Button
                             android:id="@+id/btnPower"
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
+                            android:layout_width="@dimen/dp_54"
+                            android:layout_height="@dimen/dp_54"
                             android:layout_gravity="center"
                             android:background="@android:color/transparent" />
                     </FrameLayout>
@@ -105,8 +105,8 @@
 
                         <Button
                             android:id="@+id/btnKey1"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -121,8 +121,8 @@
 
                         <Button
                             android:id="@+id/btnKey2"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -137,8 +137,8 @@
 
                         <Button
                             android:id="@+id/btnKey3"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -153,8 +153,8 @@
 
                         <Button
                             android:id="@+id/btnKey4"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -176,8 +176,8 @@
 
                         <Button
                             android:id="@+id/btnKey5"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -192,8 +192,8 @@
 
                         <Button
                             android:id="@+id/btnKey6"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -208,8 +208,8 @@
 
                         <Button
                             android:id="@+id/btnKey7"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -224,8 +224,8 @@
 
                         <Button
                             android:id="@+id/btnKey8"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -247,8 +247,8 @@
 
                         <Button
                             android:id="@+id/btnKey9"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -263,8 +263,8 @@
 
                         <Button
                             android:id="@+id/btnKey0"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -279,8 +279,8 @@
 
                         <Button
                             android:id="@+id/btnKeyBack"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -295,8 +295,8 @@
 
                         <Button
                             android:id="@+id/btnKeyTvAv"
-                            android:layout_width="52dp"
-                            android:layout_height="36dp"
+                            android:layout_width="@dimen/dp_52"
+                            android:layout_height="@dimen/dp_36"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/key_bg"
@@ -317,22 +317,22 @@
 
                 <ImageView
                     android:id="@+id/imgVoice"
-                    android:layout_width="258dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/dp_258"
+                    android:layout_height="@dimen/dp_36"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ctrl_voice" />
 
                 <Button
                     android:id="@+id/btnVoiceLeft"
-                    android:layout_width="100dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_36"
                     android:background="@android:color/transparent" />
 
                 <Button
                     android:id="@+id/btnVoiceRight"
-                    android:layout_width="100dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_36"
                     android:layout_gravity="end"
                     android:background="@android:color/transparent" />
 
@@ -346,51 +346,51 @@
 
                 <ImageView
                     android:id="@+id/imgCtrl"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_200"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/ctrl_direct" />
 
                 <ImageView
                     android:id="@+id/imgOk"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
+                    android:layout_width="@dimen/dp_82"
+                    android:layout_height="@dimen/dp_82"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/key_ok" />
 
                 <Button
                     android:id="@+id/btnOk"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
+                    android:layout_width="@dimen/dp_82"
+                    android:layout_height="@dimen/dp_82"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent" />
 
                 <Button
                     android:id="@+id/btnLeft"
-                    android:layout_width="54dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/dp_54"
+                    android:layout_height="@dimen/dp_80"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent" />
 
                 <Button
                     android:id="@+id/btnTop"
-                    android:layout_width="80dp"
-                    android:layout_height="54dp"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_54"
                     android:layout_gravity="center_horizontal"
                     android:background="@android:color/transparent" />
 
                 <Button
                     android:id="@+id/btnRight"
-                    android:layout_width="54dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/dp_54"
+                    android:layout_height="@dimen/dp_80"
                     android:layout_gravity="center_vertical|end"
                     android:background="@android:color/transparent" />
 
                 <Button
                     android:id="@+id/btnDown"
-                    android:layout_width="80dp"
-                    android:layout_height="54dp"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_54"
                     android:layout_gravity="bottom|center_horizontal"
                     android:background="@android:color/transparent" />
 
